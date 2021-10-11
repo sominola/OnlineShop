@@ -1,0 +1,114 @@
+﻿<header class="header-area clearfix">
+    <div class="header-bottom sticky-bar header-res-padding header-padding-2">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Logo -->
+                <div class="col-xl-2 col-lg-2 col-md-6 col-4">
+                    <div class="logo">
+                        <a href="#">
+                            @* <img alt="" src="~/img/logo/logo.png"> *@
+                            <h3>@Config.CompanyName</h3>
+                        </a>
+                    </div>
+                </div>
+                <!-- Logo -->
+
+                <!-- Links -->
+                <div class="col-xl-8 col-lg-8 d-none d-lg-block">
+                    <div class="main-menu">
+                        <nav>
+                            <ul>
+                                <li>
+                                    <a href="#">Home <i ></i></a>
+
+                                </li>
+                                <li>
+                                    <a href="#"> About </a>
+                                </li>
+                                <li>
+                                    <a href="#"> Contact</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Links -->
+
+                <!-- Icons div -->
+                <div class="col-xl-2 col-lg-2 col-md-6 col-8">
+                    <div class="header-right-wrap">
+                        <!-- Search -->
+                        <div class="same-style header-search">
+                            <a class="search-active" href="#">
+                                <i class="pe-7s-search"></i>
+                            </a>
+                            <div class="search-content">
+                                <form action="#">
+                                    <input type="text" placeholder="Search"/>
+                                    <button class="button-search">
+                                        <i class="pe-7s-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Search -->
+
+                        <!-- Account Icon -->
+                        <div class="same-style account-satting">
+                            <a class="account-satting-active" href="#">
+                                <i class="pe-7s-user-female"></i>
+                            </a>
+                            <div class="account-dropdown">
+                                <ul>
+                                    <li>
+                                        <a href="@Url.ActionLink("Login", "Account")">Login</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.ActionLink("Register", "Account")">Register</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Wishlist </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">my account</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Account Icon -->
+
+                        <!-- Like Icon -->
+                        <div class="same-style header-wishlist">
+                            <a href="#">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                        </div>
+                        <!-- Like Icon -->
+
+                    </div>
+                </div>
+                <!-- Icons div -->
+            </div>
+            <!-- Mobile Version -->
+            <div class="mobile-menu-area">
+                <div class="mobile-menu">
+                    <nav id="mobile-menu-active">
+                        <ul class="menu-overflow">
+                            <li>
+                                <a href="#">HOME</a>
+                            </li>
+
+                            <li>
+                                <a href="#">About us</a>
+                            </li>
+                            <li>
+                                <a href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- Mobile Version -->
+        </div>
+    </div>
+</header>

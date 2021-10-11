@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- MetaPartial -->
+    @await Html.PartialAsync("MetaTagsPartial")
+    <!-- Google Font -->
+    @await Html.PartialAsync("FontsPartial")
+    <!-- Css Styles -->
+    @await Html.PartialAsync("CssPartial")
+
+
+</head>
+
+<body>
+<!-- Header Section Begin -->
+@await Html.PartialAsync("HeaderPartial")
+<!-- Header End -->
+<main>
+    @RenderBody()
+</main>
+
+<!-- Footer Section Begin -->
+@await Html.PartialAsync("FooterPartial")
+<!-- Footer Section End -->
+
+<!-- Js Plugins -->
+@await Html.PartialAsync("ScriptsPartial")
+
+</body>
+
+</html>
