@@ -13,4 +13,9 @@
       <ProjectReference Include="..\OnlineShop.Data\OnlineShop.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\js\vendor\jquery-1.12.4.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\vendor\modernizr-2.8.3.min.js" />
+    </ItemGroup>
+
 </Project>
