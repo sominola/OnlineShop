@@ -5,17 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.10" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\OnlineShop.Data\OnlineShop.Data.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\js\vendor\jquery-1.12.4.min.js" />
-      <_ContentIncludedByDefault Remove="wwwroot\js\vendor\modernizr-2.8.3.min.js" />
+        <ProjectReference Include="..\OnlineShop.Data\OnlineShop.Data.csproj"/>
     </ItemGroup>
 
 </Project>
