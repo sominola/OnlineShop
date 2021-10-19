@@ -1,4 +1,4 @@
-﻿namespace OnlineShop.Web.Services
+﻿namespace OnlineShop.Web.Extension
 {
     public class Config
     {
