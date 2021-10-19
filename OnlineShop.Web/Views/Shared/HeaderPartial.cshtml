@@ -1,11 +1,12 @@
-﻿<header class="header-area clearfix">
+﻿@inject SignInManager<User> _signInManager
+<header class="header-area clearfix">
     <div class="header-bottom sticky-bar header-res-padding header-padding-2">
         <div class="container-fluid">
             <div class="row">
                 <!-- Logo -->
                 <div class="col-xl-2 col-lg-2 col-md-6 col-4">
                     <div class="logo">
-                        <a href="#">
+                        <a href="@Url.ActionLink("Index", "Home")">
                             @* <img alt="" src="~/img/logo/logo.png"> *@
                             <h3>@Config.CompanyName</h3>
                         </a>
@@ -19,7 +20,7 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a href="#">Home <i ></i></a>
+                                    <a href="@Url.ActionLink("Index", "Home")">Home <i ></i></a>
 
                                 </li>
                                 <li>
@@ -28,6 +29,10 @@
                                 <li>
                                     <a href="#"> Contact</a>
                                 </li>
+                                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                {
+                                    @await Component.InvokeAsync("AdminMenu")
+                                }
                             </ul>
                         </nav>
                     </div>
@@ -60,18 +65,7 @@
                             </a>
                             <div class="account-dropdown">
                                 <ul>
-                                    <li>
-                                        <a href="@Url.ActionLink("Login", "Account")">Login</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.ActionLink("Register", "Account")">Register</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Wishlist </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">my account</a>
-                                    </li>
+                                    @await Html.PartialAsync("AccountMenuPartial")
                                 </ul>
                             </div>
                         </div>
