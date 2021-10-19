@@ -1,0 +1,13 @@
+@model IEnumerable<OnlineShop.Web.Components.AdminMenuItem>
+
+<li>
+    <a>Admin panel<i class="fa fa-angle-down"></i></a>
+    <ul class="submenu">
+        @foreach (var menuItem in Model)
+        {
+            <li>
+                <a asp-controller="@menuItem.ControllerValue" asp-action=@menuItem.ActionValue>@menuItem.DisplayValue</a>
+            </li>
+        }
+    </ul>
+</li>
