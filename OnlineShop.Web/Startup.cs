@@ -8,7 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShop.Data;
 using OnlineShop.Data.Models;
+using OnlineShop.Web.Extension;
 using OnlineShop.Web.Services;
+using OnlineShop.Web.Services.Account;
 
 namespace OnlineShop.Web
 {
@@ -27,27 +29,28 @@ namespace OnlineShop.Web
 
             services.AddIdentity<User, IdentityRole>(options =>
                 {
-                    options.Password.RequiredLength = 5;   // минимальная длина
-                    options.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
-                    options.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
-                    options.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
-                    options.Password.RequireDigit = false; // требуются ли цифры
+                    options.Password.RequiredLength = 5;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireDigit = false;
                 })
                 .AddEntityFrameworkStores<AppDbContext>();
 
+            services.AddScoped<IAccountService, AccountService>();
+
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = "/error";
+                options.AccessDeniedPath = "/AccessDenied";
                 options.Cookie.Name = "Authentication.Cookie";
                 options.Cookie.HttpOnly = true;
                 options.LoginPath = "/account/login";
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
-            
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRouting(options => options.LowercaseUrls = true);
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +60,14 @@ namespace OnlineShop.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+                app.UseHsts();
+            }
+
+            app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -65,14 +76,15 @@ namespace OnlineShop.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
-            
-           
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    "admin", 
+                    "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
