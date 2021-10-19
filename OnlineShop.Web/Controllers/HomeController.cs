@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using OnlineShop.Web.Models;
+using OnlineShop.Web.ViewModels;
 
 namespace OnlineShop.Web.Controllers
 {
@@ -18,16 +19,37 @@ namespace OnlineShop.Web.Controllers
         {
             return View();
         }
-
+        
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
         }
-
+        
+        [Route("Error")]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error(string code)
+        {
+            var model = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                ErrorStatusCode = code
+            };
+            
+            return View(model);
+        }
+        
+        [Route("AccessDenied")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
+            var model = new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                ErrorStatusCode = "Access Denied"
+            };
+            
+            return View(model);
         }
     }
 }
