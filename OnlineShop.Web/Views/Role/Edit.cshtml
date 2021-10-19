@@ -1,0 +1,59 @@
+﻿@model OnlineShop.Web.ViewModels.Role.ChangeRoleViewModel
+@{
+    ViewBag.Title = "Список пользователей";
+}
+<div class="breadcrumb-area pt-35 pb-35 bg-gray-3">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <ul>
+                <li>
+                    <a href="@Url.ActionLink("Index", "Home")">Home</a>
+                </li>
+                <li class="active">List of roles </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="cart-main-area pt-30 pb-100">
+    <div class="container">
+        @* <h3 class="cart-page-title">List of users</h3> *@
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="table-content table-responsive cart-table-content d-flex flex-column-reverse align-items-center">
+                    <table style="margin: 0 auto">
+                        <thead> 
+                        <tr>
+                            <th>Role Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <form asp-action="Edit" asp-controller="Role" method="post" class="">
+                            <input type="hidden" name="userId" value="@Model.UserId"/>
+                            @foreach (var role in Model.AllRoles)
+                            {
+                                <tr>
+
+                                    <td class="product-name">
+                                        <a href="#">@role.Name</a>
+                                    </td>
+
+                                    <td class="product-name toggle-switch">
+                                        <input class="toggle" type="checkbox" name="roles" value="@role.Name"
+                                               @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "")/>
+                                    </td>
+                                </tr>
+                            }
+                            <div class="button-box" style="margin-top: 25px;">
+                                <button type="submit">
+                                    <span>Save</span>
+                                </button>
+                            </div>
+                        </form>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
