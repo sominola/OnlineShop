@@ -1,0 +1,23 @@
+﻿@inject SignInManager<User> _signInManager
+@if (!_signInManager.IsSignedIn(User))
+{
+    <li>
+        <a href="@Url.ActionLink("Login", "Account")">Login</a>
+    </li>
+    <li>
+        <a href="@Url.ActionLink("Register", "Account")">Register</a>
+    </li>
+}
+else
+{
+    <li>
+        <a href="#">Wishlist </a>
+    </li>
+    <li>
+        <a href="@Url.ActionLink("Index", "Account")">Settings</a>
+    </li>
+
+    <form asp-controller="Account" asp-action="Logout" method="post">
+        <button class="btn button-link" type="submit">Logout</button>
+    </form>
+}

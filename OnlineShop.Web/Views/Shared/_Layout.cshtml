@@ -2,6 +2,10 @@
 <html lang="en">
 
 <head>
+    <title>
+        @(ViewBag.Title ??= @Config.CompanyName)
+    </title>
+
     <!-- MetaPartial -->
     @await Html.PartialAsync("MetaTagsPartial")
     <!-- Google Font -->

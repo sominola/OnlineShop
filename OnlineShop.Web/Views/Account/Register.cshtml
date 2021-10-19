@@ -1,4 +1,7 @@
-﻿@model OnlineShop.Web.Models.ViewModels.RegisterViewModel
+﻿@model OnlineShop.Web.ViewModels.Account.RegisterViewModel
+@{
+    ViewBag.Title = "Register page";
+}
 <div class="login-register-area pt-100 pb-100">
     <div class="container">
         <div class="row">
@@ -25,11 +28,8 @@
                                         <span asp-validation-for="Login" class="text-danger"></span>
                                         <input asp-for="Login" type="text" placeholder="Login">
 
-                                        <span asp-validation-for="Year" class="text-danger"></span>
-                                        <input asp-for="Year" type="text" placeholder="Year">
-
                                         <span asp-validation-for="Email" class="text-danger"></span>
-                                        <input asp-for="Email" type="email" placeholder="Email">
+                                        <input asp-for="Email" type="text" placeholder="Email">
 
                                         <span asp-validation-for="Password" class="text-danger"></span>
                                         <input asp-for="Password" type="password" placeholder="Password">
