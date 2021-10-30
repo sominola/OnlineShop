@@ -9,17 +9,17 @@ using Microsoft.Extensions.Hosting;
 using OnlineShop.Data;
 using OnlineShop.Data.Models;
 using OnlineShop.Web.Extension;
-using OnlineShop.Web.Services;
 using OnlineShop.Web.Services.Account;
+using OnlineShop.Web.Services.File;
+using OnlineShop.Web.Services.Products;
 
 namespace OnlineShop.Web
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration) => Configuration = configuration;
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //connect config from json file
@@ -38,6 +38,9 @@ namespace OnlineShop.Web
                 .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IProductService, ProductsService>();
+            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IImageService, ImageService>();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -53,7 +56,6 @@ namespace OnlineShop.Web
             services.AddRouting(options => options.LowercaseUrls = true);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -82,9 +84,6 @@ namespace OnlineShop.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    "admin", 
-                    "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
