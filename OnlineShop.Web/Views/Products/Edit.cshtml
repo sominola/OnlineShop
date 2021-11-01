@@ -1,6 +1,6 @@
-﻿@model OnlineShop.Web.ViewModels.Products.CreateProductViewModel
+﻿@model OnlineShop.Web.ViewModels.Products.EditProductViewModel
 @{
-    ViewBag.Title = "Create Product";
+    ViewBag.Title = "Update Product";
 }
 <div class="login-register-area pt-30 pb-100">
     <div class="container">
@@ -14,8 +14,9 @@
                     </div>
                     <div class="custom-form-container">
                         <div class="custom-create-form">
-                            <form asp-action="Create" asp-controller="Products" method="post" enctype="multipart/form-data">
+                            <form asp-action="Edit" asp-controller="Products" method="post" enctype="multipart/form-data">
                                 <div class="validation" asp-validation-summary="ModelOnly"></div>
+                                <input asp-for="Id" type="hidden"/>
 
                                 <label asp-for="Name"></label>
                                 <span asp-validation-for="Name"></span>
@@ -23,7 +24,7 @@
 
                                 <label asp-for="Price"></label>
                                 <span asp-validation-for="Price"></span>
-                                <input asp-for="Price" placeholder="Enter Price">
+                                <input asp-for="Price" type="number" placeholder="Enter Price">
 
                                 <label asp-for="Size">Size of product</label>
                                 <div class="select-custom">
@@ -36,7 +37,7 @@
 
                                 <label asp-for="Color">Color of product</label>
                                 <div class="select-custom">
-                                    <select asp-for="Size" asp-items="@Html.GetEnumSelectList<ColorProduct>()"></select>
+                                    <select asp-for="Color" asp-items="@Html.GetEnumSelectList<ColorProduct>()"></select>
                                     <svg>
                                         <use xlink:href="#select-arrow-down"></use>
                                     </svg>
@@ -45,14 +46,27 @@
                                 <label asp-for="Description"></label>
                                 <span asp-validation-for="Description"></span>
                                 <input asp-for="Description" type="text" placeholder="Enter Description">
-                                
+
+                                <div id="model-images">
+                                    @if (Model.Images != null)
+                                    {
+                                        @for (var i = 0; i < Model.Images?.Count; i++)
+                                        {
+
+                                            @Html.CheckBoxFor(model => model.Images[i].IsRemoved, new {path_image = Model.Images[i].Image.Path, @class = "input-removed", style = "display:none;"})
+                                            @Html.HiddenFor(model => model.Images[i].Image.Path)
+                                            @Html.HiddenFor(model => model.Images[i].Image.Name)
+                                            @Html.HiddenFor(model => model.Images[i].Image.Id)
+                                        }
+                                    }
+                                   
+                                </div>
+
                                 <label asp-for="Files"></label>
                                 <span asp-validation-for="Files"></span>
-                                @await Component.InvokeAsync("ImageInput")
+                                @await Component.InvokeAsync("ImageInput",false)
                                 <input asp-for="Files" class="custom-file-input" multiple hidden="hidden" accept="image/png, image/gif, image/jpeg">
-                                
-                            
-                                
+
                                 <svg class="sprites">
                                     <symbol id="select-arrow-down" viewbox="0 0 10 6">
                                         <polyline points="1 1 5 5 9 1"></polyline>
@@ -60,8 +74,12 @@
                                 </svg>
 
                                 <div class="button-box">
+                                    
+                                    <button asp-action="Delete" asp-controller="Products">
+                                        <span>Delete Product</span>
+                                    </button>
                                     <button type="submit">
-                                        <span>Create Product</span>
+                                          <span>Update Product</span>
                                     </button>
                                 </div>
                             </form>

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Product>
+﻿@inject SignInManager<User> _signInManager
+@model IEnumerable<Product>
 @{
     ViewBag.Title = $"Products";
 }
@@ -140,14 +141,19 @@
 
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
-                                            <a href="#">
+                                            <a href="@Url.ActionLink("Item", "Products", new {id = product.Id})">
                                                 <img class="default-img" src="@product.Images.FirstOrDefault()?.Path" alt="">
                                                 <img class="hover-img" src="@product.Images.ElementAtOrDefault(1)?.Path" alt="">
                                             </a>
                                             <div class="product-action">
-                                                @* <div class="pro-same-action pro-wishlist"> *@
-                                                @*     <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a> *@
-                                                @* </div> *@
+                                                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                                {
+                                                    <div class="pro-same-action pro-wishlist">
+                                                        <a title="Wishlist" href="@Url.ActionLink("Edit", "Products", new {id = product.Id})">
+                                                            <i class="pe-7s-tools"></i>
+                                                        </a>
+                                                    </div>
+                                                }
                                                 @* <div class="pro-same-action pro-cart"> *@
                                                 @*     <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a> *@
                                                 @* </div> *@
