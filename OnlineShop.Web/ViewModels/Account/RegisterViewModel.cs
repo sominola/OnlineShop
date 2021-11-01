@@ -14,7 +14,9 @@ namespace OnlineShop.Web.ViewModels.Account
         [Display(Name = "Login")]
         public string Login { get; set; }
 
-        [Required] [Display(Name = "Name")] public string Name { get; set; }
+        [Required] 
+        [Display(Name = "Name")] 
+        public string Name { get; set; }
 
         [Required]
         [Display(Name = "Last Name")]

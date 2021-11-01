@@ -13,9 +13,4 @@
         <ProjectReference Include="..\OnlineShop.Data\OnlineShop.Data.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\_ViewImports.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Admin\Views\_ViewStart.cshtml" />
-    </ItemGroup>
-
 </Project>
