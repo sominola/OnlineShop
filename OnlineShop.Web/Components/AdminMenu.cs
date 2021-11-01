@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineShop.Web.Components
 {
-    public class AdminMenuViewComponent : ViewComponent
+    public class AdminMenu : ViewComponent
     {
         public IViewComponentResult Invoke()
         {
