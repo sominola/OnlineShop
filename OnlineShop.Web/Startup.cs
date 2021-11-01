@@ -52,7 +52,11 @@ namespace OnlineShop.Web
                 options.SlidingExpiration = true;
             });
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation().AddMvcOptions(opt =>
+            {
+                opt.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => "The field is required!");
+            });
+            
             services.AddRouting(options => options.LowercaseUrls = true);
         }
 
