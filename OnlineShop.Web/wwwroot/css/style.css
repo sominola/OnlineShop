@@ -42,6 +42,10 @@
     background: #E2CFFF;
 }
 
+.field-validation-error{
+    color: #dc3545;
+}
+
 .input-validation-error {
     border-color: #dc3545 !important;
 }
@@ -227,43 +231,48 @@
     background: transparent none repeat scroll 0 0;
     -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-    padding: 80px;
+    padding: 45px 80px 80px;
     text-align: left;
+    display: block;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .custom-form-wrapper .custom-form-container {
-        padding: 80px 50px;
+        padding: 45px 50px 80px;
     }
 }
 
 @media only screen and (max-width: 767px) {
     .custom-form-wrapper .custom-form-container {
-        padding: 40px 15px;
+        padding: 25px 15px 40px;
     }
+}
+
+.custom-form-wrapper .custom-form-container .custom-create-form form{
+    display: block;
 }
 
 .custom-form-wrapper .custom-form-container .custom-create-form form input {
     background-color: transparent;
     box-shadow: 0 1px 3px -2px #9098a9;
     border-radius: 5px;
-    border: 1px solid #ebebeb;
+    /*border: 1px solid #ebebeb;*/
     color: #333;
     font-size: 14px;
     height: 45px;
     margin-bottom: 30px;
     padding: 0 15px;
+    border: 1px solid #e8eaed;
 }
 
+.custom-form-wrapper .custom-form-container .custom-create-form form input:focus{
+    box-shadow: 0 0 0 2px rgba(0,119,255,0.2);
+}
+.custom-form-wrapper .custom-form-container .custom-create-form form label{
+    display: block;
+}
 .custom-form-wrapper .custom-form-container .custom-create-form form .custom-file input[type=file] {
-    background-color: transparent;
-    border-radius: 5px;
-    border: 1px solid #ebebeb;
-    color: #333;
-    font-size: 14px;
-    height: 400px;
-    margin-bottom: 30px;
-    padding: 0 15px;
+  
 }
 
 .custom-form-wrapper .custom-form-container .custom-create-form form select {
@@ -275,8 +284,12 @@
     margin-bottom: 30px;
     padding: 0 15px;
 }
-
+.custom-form-wrapper .custom-form-container .custom-create-form form .button-box{
+    display: flex;
+    justify-content: space-between;
+}
 .custom-form-wrapper .custom-form-container .custom-create-form form .button-box button {
+   
     background-color: #f2f2f2;
     border: medium none;
     color: #333;
@@ -299,15 +312,17 @@
 
 /* Input-images style */
 #input-file-wrapper {
-    background-color: #fff;
     padding: 5px;
     border-radius: 5px;
     width: 100%;
-
+    border: 3px solid transparent;
     max-width: 100%;
     /*margin: 50px auto;*/
     align-self: center;
     box-sizing: border-box;
+}
+#input-file-wrapper.hover{
+    border-color: #98C261;
 }
 
 #input-file-wrapper .images {
@@ -371,13 +386,15 @@
 }
 
 #input-file-wrapper .images .pic {
-    background-color: #F5F7FA;
+    background-color: #f2f2f2;
     align-self: center;
     text-align: center;
     padding: 40px 0;
     text-transform: uppercase;
     color: #333;
     cursor: pointer;
+    box-shadow: 0 1px 3px -2px #9098a9;
+    transition: all 150ms ease;
 }
 
 /* Input-images style */
