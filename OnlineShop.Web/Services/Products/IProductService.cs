@@ -12,8 +12,8 @@ namespace OnlineShop.Web.Services.Products
         Task CreateProductAsync(Product product);
         
         Task<Product> GetProductByIdAsync(Guid id);
-        Task EditProduct(Product product);
+        Task UpdateProductAsync(Product product);
 
-        Task DeleteProductAsync(Product product);
+        Task DeleteProductAsync(Guid id);
     }
 }

@@ -19,6 +19,7 @@ namespace OnlineShop.Web.Services.File
             _db = db;
         }
 
+        
         public async Task<ProductImage> UploadImageAsync(IFormFile file)
         {
             var idImage = Guid.NewGuid();

@@ -29,15 +29,24 @@ namespace OnlineShop.Web.Services.Products
         
         public async Task<Product> GetProductByIdAsync(Guid id)
         {
-            return await _db.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _db.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
+            return product;
         }
 
-        public async Task EditProduct(Product product)
+        public async Task UpdateProductAsync(Product product)
         {
-            var dbProduct = await _db.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+            var dbProduct = await GetProductByIdAsync(product.Id);
             if (dbProduct != null)
             {
-                dbProduct = product;
+                dbProduct.Name = product.Name;
+                dbProduct.Price = product.Price;
+                dbProduct.SizeProduct = product.SizeProduct;
+                dbProduct.ColorProduct = product.ColorProduct;
+                dbProduct.Description = product.Description;
+                
+                _db.Images.RemoveRange(dbProduct.Images);    
+                dbProduct.Images.AddRange(product.Images);  
+                
                 _db.Products.Update(dbProduct);
                 await _db.SaveChangesAsync();
             }
@@ -47,11 +56,12 @@ namespace OnlineShop.Web.Services.Products
             }
         }
 
-        public async Task DeleteProductAsync(Product product)
+        public async Task DeleteProductAsync(Guid id)
         {
-            var dbProduct = await _db.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+            var dbProduct = await GetProductByIdAsync(id);
             if (dbProduct != null)
             {
+                _db.Images.RemoveRange(dbProduct.Images);
                 _db.Products.Remove(dbProduct);
                 await _db.SaveChangesAsync();
             }
