@@ -1,5 +1,5 @@
 ﻿<!-- jQuery JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
 <!-- Popper JS -->
 <script src="https://unpkg.com/@@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <!-- Bootstrap JS -->
@@ -19,66 +19,3 @@
 <script src="https://unpkg.com/jquery-slinky@4.2.1/dist/slinky.min.js"></script>
 <!-- Main JS -->
 <script src="~/js/main.js"></script>
-
-
-<script>
-const dt = new DataTransfer(); 
-(function ($) {
-  $(document).ready(function () {
-    uploadImage()
-    
-    function uploadImage() 
-    {
-      const button = $('.images .pic');
-      const uploader = $('.custom-file-input');
-      const images = $('.images');
-	  
-      button.on('click', function () 
-      {
-        uploader.click()
-      })
-      
-      $('.custom-file-input').on('change', function () 
-      {
-		  for (let file of this.files)
-		  {
-			let fullName = file.name;
-			let reader = new FileReader();
-		    reader.onload = function(event) 
-            {
-				let item = '<div class="img" title="'+fullName+'" style="background-image: url(\'' + event.target.result + '\');" ><span>remove</span></div>'
-            	images.prepend(item);
-            }
-			
-            reader.readAsDataURL(file);
-
-		  }
-          	for (let file of this.files)
-          	{
-          		dt.items.add(file);
-          	}
-          	
-          	this.files = dt.files;
-       })
-      
-      images.on('click', '.img', function () 
-      {
-        let name = $(this).attr('title');
-		
-        for(let i = 0; i < dt.items.length; i++)
-        {
-        	if(name === dt.items[i].getAsFile().name)
-            {
-            	dt.items.remove(i);
-            }
-        }
-		$(".custom-file-input")[0].files = dt.files;
-        // document.getElementById('Files').files = dt.files;
-		$(this).remove()
-      })
-    
-    }
-    
-  })
-})(jQuery)
-</script>
