@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using OnlineShop.Data.Enums;
 
 namespace OnlineShop.Data.Models
@@ -11,7 +12,7 @@ namespace OnlineShop.Data.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
-        
+        public Brand Brand { get; set; }        
         public SizeProduct SizeProduct { get; set; }
         
         public ColorProduct ColorProduct { get; set; }
