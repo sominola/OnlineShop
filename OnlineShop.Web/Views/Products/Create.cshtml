@@ -33,6 +33,9 @@
                                     </svg>
                                 </div>
 
+                                <label asp-for="BrandName"></label>
+                                <span asp-validation-for="BrandName"></span>
+                                <input asp-for="BrandName" placeholder="Enter Brand">
 
                                 <label asp-for="Color">Color of product</label>
                                 <div class="select-custom">
@@ -45,14 +48,13 @@
                                 <label asp-for="Description"></label>
                                 <span asp-validation-for="Description"></span>
                                 <input asp-for="Description" type="text" placeholder="Enter Description">
-                                
+
                                 <label asp-for="Files"></label>
                                 <span asp-validation-for="Files"></span>
                                 @await Component.InvokeAsync("ImageInput")
                                 <input asp-for="Files" class="custom-file-input" multiple hidden="hidden" accept="image/png, image/gif, image/jpeg">
-                                
-                            
-                                
+
+
                                 <svg class="sprites">
                                     <symbol id="select-arrow-down" viewbox="0 0 10 6">
                                         <polyline points="1 1 5 5 9 1"></polyline>
