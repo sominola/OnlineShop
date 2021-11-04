@@ -14,6 +14,9 @@ namespace OnlineShop.Web.ViewModels.Products
         public int Price { get; set; }
         
         [Required]
+        public string BrandName { get; set; }
+        
+        [Required]
         public SizeProduct Size { get; set; }
         
         [Required]
