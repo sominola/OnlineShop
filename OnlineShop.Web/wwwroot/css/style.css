@@ -32,7 +32,10 @@
     margin-bottom: 30px;
     padding: 0 15px;
 }
-
+.shop-top-bar .select-shoing-wrap .shop-select select {
+    margin-left: 5px;
+    cursor: pointer;
+}
 .single-slider-2 {
     max-height: 600px;
 }
@@ -179,6 +182,34 @@
     user-select: none;
 }
 /* Select-custom style  */
+
+/* Button-custom style */
+.button-box{
+    display: flex;
+    justify-content: space-between;
+}  
+.button-box button {
+
+    background-color: #f2f2f2;
+    border: medium none;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 11px 30px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.button-box button:hover {
+    background-color: #a749ff;
+    color: #fff;
+}
+
+/*Button-custom style */
 
 /* Custom-form style */
 .custom-form-wrapper .custom-tab-list {

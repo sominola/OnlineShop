@@ -1,4 +1,5 @@
-﻿@inject SignInManager<User> _signInManager
+﻿@using OnlineShop.Services
+@inject SignInManager<User> _signInManager
 <header class="header-area clearfix">
     <div class="header-bottom sticky-bar header-res-padding header-padding-2">
         <div class="container-fluid">
@@ -47,9 +48,9 @@
                                 <i class="pe-7s-search"></i>
                             </a>
                             <div class="search-content">
-                                <form action="#">
-                                    <input type="text" placeholder="Search"/>
-                                    <button class="button-search">
+                                <form asp-action="Index" asp-controller="Products" method="get">
+                                    <input name="name" type="text" placeholder="Search"/>
+                                    <button class="button-search" type="submit">
                                         <i class="pe-7s-search"></i>
                                     </button>
                                 </form>

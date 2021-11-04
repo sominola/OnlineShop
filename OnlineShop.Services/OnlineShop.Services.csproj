@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OnlineShop.Data\OnlineShop.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AngleSharp" Version="0.16.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.11" />
+    </ItemGroup>
+
+</Project>
