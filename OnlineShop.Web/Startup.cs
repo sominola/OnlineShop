@@ -8,22 +8,26 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShop.Data;
 using OnlineShop.Data.Models;
+using OnlineShop.Services;
 using OnlineShop.Web.Extension;
-using OnlineShop.Web.Services.Account;
-using OnlineShop.Web.Services.File;
-using OnlineShop.Web.Services.Products;
 
 namespace OnlineShop.Web
 {
     public class Startup
     {
         private IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration) => Configuration = configuration;
+        private IWebHostEnvironment _environment { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        {
+            Configuration = configuration;
+            _environment = environment;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
             //connect config from json file
             Configuration.Bind("Project", new Config());
+            Config.WebRootPath = _environment.WebRootPath;
 
             services.AddDbContext<AppDbContext>(x => x.UseSqlite(Config.ConnectionString));
 
@@ -37,10 +41,7 @@ namespace OnlineShop.Web
                 })
                 .AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IProductService, ProductsService>();
-            services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IImageService, ImageService>();
+            services.AddCustomServices();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -56,8 +57,13 @@ namespace OnlineShop.Web
             {
                 opt.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => "The field is required!");
             });
-            
-            services.AddRouting(options => options.LowercaseUrls = true);
+
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
