@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Data.Models;
-using OnlineShop.Web.Services.Account;
 using OnlineShop.Web.ViewModels.Account;
 
 namespace OnlineShop.Web.Controllers
@@ -13,14 +12,11 @@ namespace OnlineShop.Web.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IAccountService _accountService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IAccountService accountService)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _accountService = accountService;
         }
 
         [HttpGet]
@@ -29,7 +25,14 @@ namespace OnlineShop.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var model = _accountService.GetAccountViewModel(user);
+            var model = new EditAccountViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Login = user.Login,
+                Name = user.Name,
+                LastName = user.LastName,
+            };
             return View(model);
         }
 
@@ -43,7 +46,10 @@ namespace OnlineShop.Web.Controllers
                 var user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
-                    _accountService.UpdateUserData(user, model);
+                    user.Email = model.Email;
+                    user.Login = model.Login;
+                    user.Name = model.Name;
+                    user.LastName = model.LastName;
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
@@ -82,7 +88,13 @@ namespace OnlineShop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _accountService.CreateNewUser(model);
+                var user = new User()
+                {
+                    Name = model.Name,
+                    LastName = model.LastName,
+                    Login = model.Login, 
+                    Email = model.Email,
+                };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
