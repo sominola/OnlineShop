@@ -12,6 +12,20 @@ namespace OnlineShop.Web.Extension
     {
         public static void AddCustomServices(this IServiceCollection services)
         {
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = Environment.GetEnvironmentVariable("GoogleId", EnvironmentVariableTarget.User)!;
+                    options.ClientSecret =  Environment.GetEnvironmentVariable("GoogleSecret", EnvironmentVariableTarget.User)!;
+                });
+
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = Environment.GetEnvironmentVariable("FacebookId", EnvironmentVariableTarget.User)!;
+                options.AppSecret = Environment.GetEnvironmentVariable("FacebookSecret", EnvironmentVariableTarget.User)!;
+            });
+
+
             services.AddScoped<IProductService, ProductsService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IImageService, ImageService>();

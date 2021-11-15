@@ -11,8 +11,6 @@ using OnlineShop.Services.Parser;
 using OnlineShop.Services.Products;
 using OnlineShop.Web.ViewModels.Products;
 
-// ReSharper disable SuggestVarOrType_BuiltInTypes
-
 namespace OnlineShop.Web.Controllers
 {
     public class ProductsController : Controller
@@ -34,12 +32,12 @@ namespace OnlineShop.Web.Controllers
         public async Task<IActionResult> Index(FilterViewModel filter)
         {
             var model = new ProductPageViewModel(filter, _productService);
-            
+
             model.SortProductsByBrand();
             model.SortProductsByName();
             model.GenerateBrands();
             await model.GenerateSkipTakeAsync();
-            
+
             if (!await model.ProductsAnyAsync())
             {
                 return View(new ProductPageViewModel(filter));
@@ -81,8 +79,10 @@ namespace OnlineShop.Web.Controllers
         {
             await _productParserService.StartParsing("k/vin/odyag/sorochky");
             await _productParserService.StartParsing("k/vin/odyag/kurtky-ta-palta");
+            
             return Ok();
         }
+
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
