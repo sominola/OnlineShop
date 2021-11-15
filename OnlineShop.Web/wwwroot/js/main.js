@@ -286,6 +286,18 @@
     };
 })(jQuery);
 
+$(function () {
+    $(document).ready(function() {
+        if (window.location.href.indexOf("#_=_") > -1) {
+            //remove facebook oAuth response bogus hash
+            if (window.history && window.history.pushState) {
+                history.pushState('', document.title, window.location.pathname);
+            } else {
+                window.location.href = window.location.href.replace(location.hash, "");
+            }
+        }
+    });
+});
 
 /**
  * sticky-sidebar - A JavaScript plugin for making smart and high performance.
