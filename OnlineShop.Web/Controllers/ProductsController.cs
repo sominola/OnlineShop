@@ -4,16 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data.Models;
 using OnlineShop.Services.BrandService;
 using OnlineShop.Services.File;
 using OnlineShop.Services.Parser;
 using OnlineShop.Services.Products;
 using OnlineShop.Web.ViewModels.Products;
-
-// ReSharper disable SuggestVarOrType_BuiltInTypes
 
 namespace OnlineShop.Web.Controllers
 {
@@ -35,63 +31,21 @@ namespace OnlineShop.Web.Controllers
 
         public async Task<IActionResult> Index(FilterViewModel filter)
         {
-            int skipProducts = (filter.CurrentPage - 1) * filter.CountProductsOnPage;
-            
-            var products = _productService.GetAllProducts();
-        
-            if (!await products.AnyAsync())
-                return View(new IndexProductViewModel(filter));
-            products = _productService.SortProductsByOrder(products, filter.CurrentSort);
+            var model = new ProductPageViewModel(filter, _productService);
 
+            model.SortProductsByBrand();
+            model.SortProductsByName();
+            model.GenerateBrands();
+            await model.GenerateSkipTakeAsync();
 
-            if (!string.IsNullOrEmpty(filter.CurrentName))
+            if (!await model.ProductsAnyAsync())
             {
-                products = _productService.GetProductsByName(products, filter.CurrentName);
-                if (!await products.AnyAsync())
-                {
-                    return View(new IndexProductViewModel(filter));
-                }
+                return View(new ProductPageViewModel(filter));
             }
-           
-            
-            if (!string.IsNullOrEmpty(filter.CurrentBrand) && filter.CurrentBrand != "All")
-            {
-                products = _productService.GetProductsByBrand(products, filter.CurrentBrand); 
-                if (!await products.AnyAsync())
-                {
-                    return View(new IndexProductViewModel(filter));
-                }
-            }
-            
-            var brands = await _brandService.GetAllBrands().ToListAsync();
-            brands.Insert(0, new Brand(){Name = "All", Id = Guid.Empty});
-            filter.Brands = new SelectList(brands, "Name", "Name", filter.CurrentBrand);
-            
-            double totalProducts = await products.CountAsync();
-            int maxPages = (int) Math.Ceiling(totalProducts / filter.CountProductsOnPage);
-
-            //check if take > countProducts
-            int takeProducts = filter.CountProductsOnPage;
-            int skipTake = skipProducts + takeProducts;
-            if (skipTake > totalProducts)
-                takeProducts -= skipTake - (int) totalProducts;
 
 
-            if (totalProducts > filter.CountProductsOnPage)
-                products = _productService.SkipTakeProducts(products, skipProducts, takeProducts);
-
-            if (filter.CurrentPage > maxPages || filter.CurrentPage <= 0)
+            if (filter.CurrentPage > model.TotalPages || filter.CurrentPage <= 0)
                 return RedirectToAction("Index", new {name = filter.CurrentName, sortOrder = filter.CurrentSort});
-
-            var model = new IndexProductViewModel()
-            {
-                Filter = filter,
-                Products = await products.ToListAsync(),
-                CountPages = maxPages,
-                TotalProducts = (int) totalProducts,
-                MaxCountOnPage = filter.CountProductsOnPage,
-                CountProductsOnPage = skipTake,
-            };
 
             return View(model);
         }
@@ -125,8 +79,10 @@ namespace OnlineShop.Web.Controllers
         {
             await _productParserService.StartParsing("k/vin/odyag/sorochky");
             await _productParserService.StartParsing("k/vin/odyag/kurtky-ta-palta");
+            
             return Ok();
         }
+
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -148,8 +104,9 @@ namespace OnlineShop.Web.Controllers
                         Id = Guid.NewGuid(),
                         Name = model.BrandName
                     };
-                   await _brandService.CreateBrand(brand);
+                    await _brandService.CreateBrand(brand);
                 }
+
                 var images = await _imageService.UploadImagesAsync(model.Files);
                 var product = new Product
                 {
@@ -213,6 +170,7 @@ namespace OnlineShop.Web.Controllers
                     var imagesFromFile = await _imageService.UploadImagesAsync(model.Files);
                     images.AddRange(imagesFromFile);
                 }
+
                 var brand = await _brandService.FindBrandsByNameAsync(model.Name);
                 if (brand == null)
                 {

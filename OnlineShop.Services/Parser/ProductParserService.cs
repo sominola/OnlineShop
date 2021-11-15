@@ -57,9 +57,9 @@ namespace OnlineShop.Services.Parser
             _brandService = brandService;
         }
 
-        public async Task StartParsing(string path = null)
+        public async Task StartParsing(string path)
         {
-            var listPathProducts = await GetUrlsProducts(path ??= _config.PathToProducts);
+            var listPathProducts = await GetUrlsProducts(path ?? _config.PathToProducts);
             var pathProducts = listPathProducts as string[] ?? listPathProducts.ToArray();
 
             await foreach (var htmlProduct in GetHtmlProductList(pathProducts))

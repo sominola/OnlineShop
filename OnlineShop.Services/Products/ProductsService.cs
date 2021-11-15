@@ -23,7 +23,10 @@ namespace OnlineShop.Services.Products
 
         public IQueryable<Product> GetProductsByName(IQueryable<Product> products, string name)
         {
-            return products.Where(p => p.Name.Contains(name));
+            products = products.Where(p => p.Name.Contains(name));
+            products = products.Where(p => p.Name.Contains(name.ToUpper()));
+            products = products.Where(p => p.Name.Contains(name.ToLower()));
+            return products;
         }
 
         public IQueryable<Product> GetProductsByBrand(IQueryable<Product> products, string brand)

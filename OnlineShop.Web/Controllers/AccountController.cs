@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.AccessControl;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +9,6 @@ using OnlineShop.Web.ViewModels.Account;
 
 namespace OnlineShop.Web.Controllers
 {
-    [Route("")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -72,14 +73,18 @@ namespace OnlineShop.Web.Controllers
 
         [HttpGet]
         [Route("Register")]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
-            if (User.Identity.IsAuthenticated)
+            if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            var model = new RegisterViewModel()
+            {
+                ExternalLogins = await _signInManager.GetExternalAuthenticationSchemesAsync()
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -92,7 +97,7 @@ namespace OnlineShop.Web.Controllers
                 {
                     Name = model.Name,
                     LastName = model.LastName,
-                    Login = model.Login, 
+                    Login = model.Login,
                     Email = model.Email,
                 };
 
@@ -110,21 +115,107 @@ namespace OnlineShop.Web.Controllers
                     }
                 }
             }
-
+        
             return View();
+        }
+
+        [AllowAnonymous]
+        [Route("ExternalLoginCallback")]
+        public async Task<IActionResult>
+            ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl ??= Url.Content("~/");
+
+            var model = new LoginViewModel()
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = await _signInManager.GetExternalAuthenticationSchemesAsync()
+            };
+
+            if (remoteError != null)
+            {
+                ModelState
+                    .AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+
+                return View("Login", model);
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ModelState
+                    .AddModelError(string.Empty, "Error loading external login information.");
+
+                return View("Login", model);
+            }
+
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
+                info.ProviderKey, false, true);
+
+            if (signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var name = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+            var surname = info.Principal.FindFirstValue(ClaimTypes.Surname);
+            var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                
+            // var picture = $"https://graph.facebook.com/{identifier}/picture?type=large";
+               
+            var user = await _userManager.FindByEmailAsync(email);
+                    
+            if (user == null)
+            {
+                user = new User()
+                {
+                    Login = email ??= identifier,
+                    Email = email,
+                    Name = name,
+                    LastName = surname
+                };
+
+                await _userManager.CreateAsync(user);
+            }
+
+            await _userManager.AddLoginAsync(user, info);
+            await _signInManager.SignInAsync(user, false);
+
+            return LocalRedirect(returnUrl);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ExternalLogin")]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
+                new {ReturnUrl = returnUrl});
+
+            var properties =
+                _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            return new ChallengeResult(provider, properties);
         }
 
         [HttpGet]
         [Route("Login")]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
             if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(new LoginViewModel {ReturnUrl = returnUrl});
+            var model = new LoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = await _signInManager.GetExternalAuthenticationSchemesAsync()
+            };
+            return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -152,7 +243,7 @@ namespace OnlineShop.Web.Controllers
                 }
             }
 
-            return View();
+            return View(model);
         }
 
         [HttpGet]
@@ -163,9 +254,9 @@ namespace OnlineShop.Web.Controllers
             {
                 return View(new ChangePasswordViewModel());
             }
-            
+
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            
+
             if (user == null)
             {
                 ModelState.AddModelError(string.Empty, "Wrong user id");
@@ -179,7 +270,7 @@ namespace OnlineShop.Web.Controllers
             };
             return View(model);
         }
-        
+
         [HttpPost]
         [Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -195,7 +286,7 @@ namespace OnlineShop.Web.Controllers
                 {
                     user = await _userManager.FindByIdAsync(model.Id);
                 }
-                
+
                 if (user != null)
                 {
                     var passwordValidator =

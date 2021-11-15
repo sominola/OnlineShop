@@ -16,21 +16,21 @@ namespace OnlineShop.Web
     public class Startup
     {
         private IConfiguration Configuration { get; }
-        private IWebHostEnvironment _environment { get; }
+        private IWebHostEnvironment Environment { get; }
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
-            _environment = environment;
+            Environment = environment;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             //connect config from json file
             Configuration.Bind("Project", new Config());
-            Config.WebRootPath = _environment.WebRootPath;
+            Config.WebRootPath = Environment.WebRootPath;
 
             services.AddDbContext<AppDbContext>(x => x.UseSqlite(Config.ConnectionString));
-
+            
             services.AddIdentity<User, IdentityRole>(options =>
                 {
                     options.Password.RequiredLength = 5;
@@ -48,7 +48,7 @@ namespace OnlineShop.Web
                 options.AccessDeniedPath = "/AccessDenied";
                 options.Cookie.Name = "Authentication.Cookie";
                 options.Cookie.HttpOnly = true;
-                options.LoginPath = "/account/login";
+                options.LoginPath = "/login";
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
@@ -79,10 +79,8 @@ namespace OnlineShop.Web
             }
 
             app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthentication();

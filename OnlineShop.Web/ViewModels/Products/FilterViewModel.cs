@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using OnlineShop.Data.Models;
 
 namespace OnlineShop.Web.ViewModels.Products
 {
@@ -17,23 +15,20 @@ namespace OnlineShop.Web.ViewModels.Products
         [BindProperty(Name="Sort")]
         public OrderBy CurrentSort { get; set; } = OrderBy.PriceDesc;
         
-        public SelectList Brands { get; set; }
-        
         [BindProperty(Name="Brand")]
         public string CurrentBrand { get; set; }
         
+        public SelectList Brands { get; set; }
         public string CurrentSortString => CurrentSort.ToString().ToLower();
 
         [BindProperty(Name="Count")]
-        public int CountProductsOnPage { get; set; } = 15;
+        public int TotalProductsOnPage { get; set; } = 15;
         public IEnumerable<SelectListItem> SelectListItems { get; set; }
-
+        
         public FilterViewModel()
         {
             GenerateSortOrder();
         }
-        
-
         private void GenerateSortOrder()
         {
             SelectListItems = new List<SelectListItem>
@@ -46,5 +41,6 @@ namespace OnlineShop.Web.ViewModels.Products
                 new("Sort high to low name", OrderBy.NameDesc.ToString().ToLower(), CurrentSort == OrderBy.NameDesc),
             };
         }
+        
     }
 }

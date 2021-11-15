@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authentication;
 
 namespace OnlineShop.Web.ViewModels.Account
 {
@@ -17,5 +19,7 @@ namespace OnlineShop.Web.ViewModels.Account
         public bool RememberMe { get; set; }
          
         public string ReturnUrl { get; set; }
+        
+        public IEnumerable<AuthenticationScheme> ExternalLogins { get; set; }
     }
 }
