@@ -35,7 +35,7 @@ namespace OnlineShop.Web.Controllers
 
             model.SortProductsByBrand();
             model.SortProductsByName();
-            model.GenerateBrands();
+            await model.GenerateBrands();
             await model.GenerateSkipTakeAsync();
 
             if (!await model.ProductsAnyAsync())
@@ -82,7 +82,6 @@ namespace OnlineShop.Web.Controllers
             
             return Ok();
         }
-
 
         [HttpPost]
         [Authorize(Roles = "Admin")]

@@ -14,7 +14,8 @@ namespace OnlineShop.Web.Controllers
         {
             _logger = logger;
         }
-
+        
+        [ResponseCache(Location =ResponseCacheLocation.Any, Duration = 300)]
         public IActionResult Index()
         {
             return View();

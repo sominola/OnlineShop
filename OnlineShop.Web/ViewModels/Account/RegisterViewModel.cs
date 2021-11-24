@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authentication;
+﻿using System.ComponentModel.DataAnnotations;
 using OnlineShop.Web.Extension.Validation;
 
 namespace OnlineShop.Web.ViewModels.Account
@@ -37,6 +35,5 @@ namespace OnlineShop.Web.ViewModels.Account
         [Display(Name = "Confirm Password")]
         public string PasswordConfirm { get; set; }
         
-        public IEnumerable<AuthenticationScheme> ExternalLogins { get; set; }
     }
 }

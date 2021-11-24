@@ -41,6 +41,7 @@ namespace OnlineShop.Web
                 })
                 .AddEntityFrameworkStores<AppDbContext>();
 
+            services.AddMemoryCache();
             services.AddCustomServices();
 
             services.ConfigureApplicationCookie(options =>

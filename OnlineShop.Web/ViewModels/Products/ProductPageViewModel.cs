@@ -51,9 +51,9 @@ namespace OnlineShop.Web.ViewModels.Products
             }
         }
 
-        public void GenerateBrands()
+        public async Task GenerateBrands()
         {
-            var brands = _products.Select(x => x.Brand).Distinct().ToList();
+            var brands = await _products.Select(x => x.Brand).Distinct().ToListAsync();
             brands.Insert(0, new Brand() {Name = "All", Id = Guid.Empty});
             Filter.Brands = new SelectList(brands, "Name", "Name", Filter.CurrentBrand);
         }
