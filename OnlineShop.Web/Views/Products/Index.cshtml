@@ -1,181 +1,167 @@
 ﻿@inject SignInManager<User> _signInManager
 @model OnlineShop.Web.ViewModels.Products.ProductPageViewModel
 @{
-    ViewBag.Title = $"Products";
+    ViewBag.Title = "Products";
 }
-<div class="breadcrumb-area pt-35 pb-35 bg-gray-3">
-    <div class="container">
-        <div class="breadcrumb-content text-center">
-            <ul>
-                <li>
-                    <a href="@Url.ActionLink("Index", "Home")">Home</a>
-                </li>
-                <li class="active">@ViewBag.Title</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="shop-area pt-95 pb-100">
+<div class="shop-area pt-95 pb-100" style="padding-bottom: 100px; padding-top: 95px;">
     <div class="container">
         <div class="row flex-row-reverse">
             <div class="col-lg-12">
-                <div class="shop-top-bar mb-35">
+                <div class="shop-top-bar mb-35" style="margin-bottom: 35px;">
                     <div class="select-shoing-wrap">
                         <p>Showing @Model.Filter.TotalProductsOnPage of @Model.TotalProducts result</p>
                     </div>
                     <div class="filter-active">
-                        <a href="#"><i class="fa fa-plus"></i> filter</a>
+                        <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-plus"></i> filter</a>
                     </div>
                 </div>
-            </div>
-            <div class="product-filter-wrapper">
-                <form id="form-search" asp-action="Index" method="get">
+
+                <div class="product-filter-wrapper collapse" id="collapseExample">
+                    <form id="form-search" asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
+                                <div class="product-filter">
+                                    <h5>Sort by</h5>
+                                    <select name="sort" asp-items="@Model.Filter.SelectListItems"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
+                                <div class="product-filter">
+                                    <h5>Count products: </h5>
+                                    <select name="count" asp-for="@Model.Filter.TotalProductsOnPage">
+                                        <option name="15">15</option>
+                                        <option name="35">35</option>
+                                        <option name="45">45</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
+                                <div class="product-filter">
+                                    <h5>Brand of products: </h5>
+                                    <select name="brand" asp-items="@Model.Filter.Brands">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
+                                <div class="product-filter">
+                                    <h5>Search item: </h5>
+                                    <input id="input-name" type="text" name="name" asp-for="Filter.CurrentName"/>
+                                </div>
+                                <script>
+                                                                           $(function() {
+                                                                               checkIfNameNull()
+                                                                               
+                                                                               function checkIfNameNull()
+                                                                               {
+                                                                                     const form = $('#form-search');
+                                                                                     const input = $('#input-name')[0];
+                                                                                     form.on('submit', function ()
+                                                                                     {
+                                                                                         if (input.value.trim() === "")
+                                                                                         {
+                                                                                             input.removeAttribute("name");
+                                                                                             input.removeAttribute("value");
+                                                                                         }
+                                                                                     })
+                                                                               }
+                                                                           })
+                                                                           </script>
+                            </div>
+                        </div>
+                        <div class="button-box" style="margin-left: 90%">
+                            <button type="submit">
+                                <span>Submit</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="shop-bottom-area">
                     <div class="row">
-                        <!-- Product Filter -->
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
-                            <div class="product-filter">
-                                <h5>Sort by</h5>
-                                <select name="sort" asp-items="@Model.Filter.SelectListItems"></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
-                            <div class="product-filter">
-                                <h5>Count products: </h5>
-                                <select name="count" asp-for="@Model.Filter.TotalProductsOnPage">
-                                    <option name="15">15</option>
-                                    <option name="35">35</option>
-                                    <option name="45">45</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
-                            <div class="product-filter">
-                                <h5>Brand of products: </h5>
-                                <select name="brand" asp-items="@Model.Filter.Brands">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12 mb-30">
-                            <div class="product-filter">
-                                <h5>Search item: </h5>
-                                <input id="input-name" type="text" name="name" asp-for="Filter.CurrentName"/>
-                            </div>
-                            <script>
-                            $(function() {
-                                checkIfNameNull()
-                                
-                                function checkIfNameNull()
-                                {
-                                      const form = $('#form-search');
-                                      const input = $('#input-name')[0];
-                                      form.on('submit', function ()
-                                      {
-                                          if (input.value.trim() === "")
-                                          {
-                                              input.removeAttribute("name");
-                                              input.removeAttribute("value");
-                                          }
-                                      })
-                                }
-                            })
-                            </script>
-                        </div>
-                    </div>
-                    <div class="button-box" style="float: right;">
-                        <button type="submit">
-                            <span>Submit</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="shop-bottom-area">
-                <div class="row">
-
-                    @if (Model.Products != null && Model.Products.Any())
-                    {
-                        @foreach (var product in Model.Products)
+                        @if (Model.Products != null && Model.Products.Any())
                         {
-                            <div class="col-xl-4 col-md-6 col-lg-4 col-sm-6">
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="col-xl-4 col-md-6 col-lg-4 col-sm-6">
 
-                                <div class="product-wrap mb-25 scroll-zoom">
-                                    <div class="product-img">
-                                        <a href="@Url.ActionLink("Item", "Products", new {id = product.Id})">
-                                            <img class="default-img" src="@product.Images.FirstOrDefault().Path" alt="">
-                                            <img class="hover-img" src="@product.Images.ElementAtOrDefault(1)?.Path" alt="">
-                                        </a>
-                                        <div class="product-action">
-                                            @if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                                            {
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="@Url.ActionLink("Edit", "Products", new {id = product.Id})">
-                                                        <i class="pe-7s-tools"></i>
+                                    <div class="product-wrap mb-25 scroll-zoom" style="margin-bottom: 25px">
+                                        <div class="product-img">
+                                            <a href="@Url.ActionLink("Item", "Products", new {id = product.Id})">
+                                                <img class="default-img" src="@product.Images.FirstOrDefault().Path" alt="">
+                                                <img class="hover-img" src="@product.Images.ElementAtOrDefault(1)?.Path" alt="">
+                                            </a>
+                                            <div class="product-action">
+                                                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                                {
+                                                    <div class="pro-same-action pro-wishlist">
+                                                        <a title="Wishlist" href="@Url.ActionLink("Edit", "Products", new {id = product.Id})">
+                                                            <i class="fal fa-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                }
+                                                <div class="pro-same-action pro-cart">
+                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
+                                                </div>
+                                                <div class="pro-same-action pro-quickview">
+                                                    <a title="Quick View">
+                                                        <i class="fas fa-heart"></i>
                                                     </a>
                                                 </div>
-                                            }
-                                            @* <div class="pro-same-action pro-cart"> *@
-                                            @*     <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a> *@
-                                            @* </div> *@
-                                            <div class="pro-same-action pro-quickview">
-                                                <a title="Quick View" href="@Url.ActionLink("Item", "Products", new {id = product.Id})" data-toggle="modal">
-                                                    <i class="pe-7s-look"></i>
-                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="product-content text-center">
+                                            <h3>
+                                                <a href="@Url.ActionLink("Item", "Products", new {id = product.Id})">@product.Name</a>
+                                            </h3>
+                                            <div class="product-price">
+                                                <span>$ @product.Price</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="product-content text-center">
-                                        <h3>
-                                            <a href="@Url.ActionLink("Item", "Products", new {id = product.Id})">@product.Name</a>
-                                        </h3>
-                                        <div class="product-price">
-                                            <span>$ @product.Price</span>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
-                        }
-                    }
-                    else if (!string.IsNullOrEmpty(Model.Filter.CurrentName))
-                    {
-                        <span>Products with @Model.Filter.CurrentName dont found!</span>
-                    }
-                    else
-                    {
-                        <span>Products empty</span>
-                    }
-                </div>
-                <div class="pro-pagination-style text-center mt-30">
-                    <ul>
-                        @* <li> *@
-                        @*     <a class="prev" href="#"> *@
-                        @*         <i class="fa fa-angle-double-left"></i> *@
-                        @*     </a> *@
-                        @* </li> *@
-                        @{
-                            for (var i = 1; i <= Model.TotalPages; i++)
-                            {
-                                if (Model.Filter.CurrentPage == i)
-                                {
-                                    <li>
-                                        <a class="active" href="@Url.ActionLink("Index", "Products", new {page = i, sort = @Model.Filter.CurrentSortString})">@i</a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li>
-                                        <a asp-action="Index" asp-route-page="@i" asp-route-sort="@Model.Filter.CurrentSortString" asp-route-count="@Model.Filter.TotalProductsOnPage" asp-route-name="@Model.Filter.CurrentName">@i</a>
-                                    </li>
-                                }
                             }
                         }
+                        else if (!string.IsNullOrEmpty(Model.Filter.CurrentName))
+                        {
+                            <span>Products with @Model.Filter.CurrentName dont found!</span>
+                        }
+                        else
+                        {
+                            <span>Products empty</span>
+                        }
+                    </div>
+                    <div class="pro-pagination-style text-center" style="margin-top: 30px;;">
+                        <ul>
+                            @* <li> *@
+                            @*     <a class="prev" href="#"> *@
+                            @*         <i class="fa fa-angle-double-left"></i> *@
+                            @*     </a> *@
+                            @* </li> *@
+                            @{
+                                for (var i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    if (Model.Filter.CurrentPage == i)
+                                    {
+                                        <li>
+                                            <a class="active" href="@Url.ActionLink("Index", "Products", new {page = i, sort = @Model.Filter.CurrentSortString})">@i</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-action="Index" asp-route-page="@i" asp-route-sort="@Model.Filter.CurrentSortString" asp-route-count="@Model.Filter.TotalProductsOnPage" asp-route-name="@Model.Filter.CurrentName">@i</a>
+                                        </li>
+                                    }
+                                }
+                            }
 
 
-                        @* <li> *@
-                        @*     <a class="next" href="#"> *@
-                        @*         <i class="fa fa-angle-double-right"></i> *@
-                        @*     </a> *@
-                        @* </li> *@
-                    </ul>
+                            @* <li> *@
+                            @*     <a class="next" href="#"> *@
+                            @*         <i class="fa fa-angle-double-right"></i> *@
+                            @*     </a> *@
+                            @* </li> *@
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

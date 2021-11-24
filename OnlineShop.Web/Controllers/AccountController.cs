@@ -1,5 +1,4 @@
-﻿using System.Security.AccessControl;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -70,21 +69,17 @@ namespace OnlineShop.Web.Controllers
 
             return View();
         }
+      
 
         [HttpGet]
         [Route("Register")]
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
             if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Index", "Home");
             }
-
-            var model = new RegisterViewModel()
-            {
-                ExternalLogins = await _signInManager.GetExternalAuthenticationSchemesAsync()
-            };
-            return View(model);
+            return View();
         }
 
         [HttpPost]
@@ -129,7 +124,6 @@ namespace OnlineShop.Web.Controllers
             var model = new LoginViewModel()
             {
                 ReturnUrl = returnUrl,
-                ExternalLogins = await _signInManager.GetExternalAuthenticationSchemesAsync()
             };
 
             if (remoteError != null)
@@ -201,19 +195,18 @@ namespace OnlineShop.Web.Controllers
 
         [HttpGet]
         [Route("Login")]
-        public async Task<IActionResult> Login(string returnUrl = null)
+        public Task<IActionResult> Login(string returnUrl = null)
         {
             if (_signInManager.IsSignedIn(User))
             {
-                return RedirectToAction("Index", "Home");
+                return Task.FromResult<IActionResult>(RedirectToAction("Index", "Home"));
             }
 
             var model = new LoginViewModel
             {
                 ReturnUrl = returnUrl,
-                ExternalLogins = await _signInManager.GetExternalAuthenticationSchemesAsync()
             };
-            return View(model);
+            return Task.FromResult<IActionResult>(View(model));
         }
 
 

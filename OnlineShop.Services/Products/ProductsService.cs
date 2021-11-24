@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using OnlineShop.Data;
 using OnlineShop.Data.Models;
 
@@ -10,10 +11,12 @@ namespace OnlineShop.Services.Products
     public class ProductsService : IProductService
     {
         private readonly AppDbContext _db;
+        private readonly IMemoryCache _cache;
 
-        public ProductsService(AppDbContext db)
+        public ProductsService(AppDbContext db, IMemoryCache cache)
         {
             _db = db;
+            _cache = cache;
         }
 
         public IQueryable<Product> GetAllProducts()
@@ -23,9 +26,7 @@ namespace OnlineShop.Services.Products
 
         public IQueryable<Product> GetProductsByName(IQueryable<Product> products, string name)
         {
-            products = products.Where(p => p.Name.Contains(name));
-            products = products.Where(p => p.Name.Contains(name.ToUpper()));
-            products = products.Where(p => p.Name.Contains(name.ToLower()));
+            products = products.Where(p => p.Name.ToLower().Contains(name.ToLower()));
             return products;
         }
 
@@ -62,14 +63,24 @@ namespace OnlineShop.Services.Products
         public async Task CreateProductAsync(Product product)
         {
             await _db.Products.AddAsync(product);
-            await _db.SaveChangesAsync();
+            var n = await _db.SaveChangesAsync();
+            if (n > 0)
+            {
+                _cache.Set(product.Id, product, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
+            }
         }
 
         public async Task<Product> GetProductByIdAsync(Guid id)
         {
-            var product = await _db.Products.Include(p => p.Images).Include(p => p.Brand)
-                .FirstOrDefaultAsync(p => p.Id == id);
-            return product;
+            return await _cache.GetOrCreateAsync(id, async _ =>
+            {
+                return await _db.Products.Include(p => p.Images)
+                    .Include(p => p.Brand)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+            });
         }
 
         public async Task UpdateProductAsync(Product product)
@@ -101,6 +112,12 @@ namespace OnlineShop.Services.Products
             var dbProduct = await GetProductByIdAsync(id);
             if (dbProduct != null)
             {
+                _cache.TryGetValue(id, out Product product);
+                if (product != null)
+                {
+                    _cache.Remove(id);
+                }
+
                 _db.Images.RemoveRange(dbProduct.Images);
                 _db.Products.Remove(dbProduct);
                 await _db.SaveChangesAsync();

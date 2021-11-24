@@ -1,12 +1,14 @@
 @model IEnumerable<OnlineShop.Web.Components.AdminMenuItem>
 
-<li>
-    <a>Admin panel<i class="fa fa-angle-down"></i></a>
-    <ul class="submenu">
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Admin Panel
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
         @foreach (var menuItem in Model)
         {
             <li>
-                <a asp-controller="@menuItem.ControllerValue" asp-action=@menuItem.ActionValue>@menuItem.DisplayValue</a>
+                <a class="dropdown-item" href="@Url.ActionLink(menuItem.ActionValue, menuItem.ControllerValue)">@menuItem.DisplayValue</a>
             </li>
         }
     </ul>

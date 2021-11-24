@@ -2,57 +2,44 @@
 @{
     ViewBag.Title = "List of roles";
 }
-<div class="breadcrumb-area pt-35 pb-35 bg-gray-3">
-    <div class="container">
-        <div class="breadcrumb-content text-center">
-            <ul>
-                <li>
-                    <a href="@Url.ActionLink("Index", "Home")">Home</a>
-                </li>
-                <li class="active">@ViewBag.Title</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="cart-main-area pt-30 pb-100">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="table-content table-responsive cart-table-content">
-                    <table style="margin: 0 auto;">
-                        <thead>
-                        <tr>
-                            <th>Role Name</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+<div class="container" style="margin: 75px auto;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="table-content table-responsive cart-table-content">
+                <table style="margin: 0 auto;">
+                    <thead>
+                    <tr>
+                        <th>Role Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="product-name">
+                            <a href="#"></a>
+                        </td>
+                        <td class="product-wishlist-cart">
+                            <a asp-action="Create" asp-controller="Role">New Role</a>
+                        </td>
+                    </tr>
+                    @foreach (var role in Model)
+                    {
                         <tr>
                             <td class="product-name">
-                                <a href="#"></a>
+                                <p>@role.Name</p>
                             </td>
                             <td class="product-wishlist-cart">
-                                <a asp-action="Create" asp-controller="Role">New Role</a>
+                                <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
                             </td>
                         </tr>
-                        @foreach (var role in Model)
-                        {
-                            <tr>
-                                <td class="product-name">
-                                    <p>@role.Name</p>
-                                </td>
-                                <td class="product-wishlist-cart">
-                                    <form asp-action="Delete" asp-route-id="@role.Id" method="post">
-                                        <button type="submit" class="btn btn-sm btn-danger">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
-                </div>
+                    }
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
