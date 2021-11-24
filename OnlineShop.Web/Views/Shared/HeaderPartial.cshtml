@@ -1,108 +1,64 @@
 ﻿@using OnlineShop.Services
 @inject SignInManager<User> _signInManager
-<header class="header-area clearfix">
-    <div class="header-bottom sticky-bar header-res-padding header-padding-2">
+<header>
+    <nav class="navbar navbar-expand-lg header">
         <div class="container-fluid">
-            <div class="row">
-                <!-- Logo -->
-                <div class="col-xl-2 col-lg-2 col-md-6 col-4">
-                    <div class="logo">
-                        <a href="@Url.ActionLink("Index", "Home")">
-                            @* <img alt="" src="~/img/logo/logo.png"> *@
-                            <h3>@Config.CompanyName</h3>
+            <a class="navbar-brand" href="@Url.ActionLink("Index", "Home")">@Config.CompanyName</a>
+            <button
+                class="header-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon">
+                    <i class="fal fa-bars"></i>
+                </span>
+            </button>
+            <div class="collapse navbar-collapse header-bar" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 header-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Index", "Home")">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.ActionLink("Index", "Products")">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link">Contact</a>
+                    </li>
+                    @if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        @await Component.InvokeAsync("AdminMenu")
+                    }
+                </ul>
+                <nav class="nav nav-pills flex-column flex-sm-row icon-nav">
+                    <form asp-action="Index" asp-controller="Products" method="get" class="search-box">
+                        <button class="btn-search" type="submit">
+                            <i class="fal fa-search"></i>
+                        </button>
+                        <input name="name" type="text" class="input-search" placeholder="Type to Search...">
+                    </form>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fal fa-user"></i>
                         </a>
-                    </div>
-                </div>
-                <!-- Logo -->
-
-                <!-- Links -->
-                <div class="col-xl-8 col-lg-8 d-none d-lg-block">
-                    <div class="main-menu">
-                        <nav>
-                            <ul>
-                                <li>
-                                    <a href="@Url.ActionLink("Index", "Home")">Home <i ></i></a>
-                                </li>
-                                <li>
-                                    <a href="@Url.ActionLink("Index","Products")"> Shop </a>
-                                </li>
-                                <li>
-                                    <a href="#"> Contact</a>
-                                </li>
-                                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                                {
-                                    @await Component.InvokeAsync("AdminMenu")
-                                }
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <!-- Links -->
-
-                <!-- Icons div -->
-                <div class="col-xl-2 col-lg-2 col-md-6 col-8">
-                    <div class="header-right-wrap">
-                        <!-- Search -->
-                        <div class="same-style header-search">
-                            <a class="search-active" href="#">
-                                <i class="pe-7s-search"></i>
-                            </a>
-                            <div class="search-content">
-                                <form asp-action="Index" asp-controller="Products" method="get">
-                                    <input name="name" type="text" placeholder="Search"/>
-                                    <button class="button-search" type="submit">
-                                        <i class="pe-7s-search"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- Search -->
-
-                        <!-- Account Icon -->
-                        <div class="same-style account-satting">
-                            <a class="account-satting-active" href="#">
-                                <i class="pe-7s-user-female"></i>
-                            </a>
-                            <div class="account-dropdown">
-                                <ul>
-                                    @await Html.PartialAsync("AccountMenuPartial")
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Account Icon -->
-
-                        <!-- Like Icon -->
-                        <div class="same-style header-wishlist">
-                            <a href="#">
-                                <i class="pe-7s-like"></i>
-                            </a>
-                        </div>
-                        <!-- Like Icon -->
-
-                    </div>
-                </div>
-                <!-- Icons div -->
-            </div>
-            <!-- Mobile Version -->
-            <div class="mobile-menu-area">
-                <div class="mobile-menu">
-                    <nav id="mobile-menu-active">
-                        <ul class="menu-overflow">
-                            <li>
-                                <a href="#">HOME</a>
-                            </li>
-
-                            <li>
-                                <a href="#">About us</a>
-                            </li>
-                            <li>
-                                <a href="#">Contact</a>
-                            </li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @await Html.PartialAsync("AccountMenuPartial")
                         </ul>
-                    </nav>
-                </div>
+                    </li>
+                    <a class="text-sm-center nav-link" href="#">
+                        <i class="fal fa-heart">
+                        </i
+                        >
+                    </a>
+                    <a class="text-sm-center nav-link" href="#">
+                        <i class="fal fa-shopping-bag">
+                        </i
+                        >
+                    </a>
+                </nav>
             </div>
-            <!-- Mobile Version -->
         </div>
-    </div>
+    </nav>
 </header>

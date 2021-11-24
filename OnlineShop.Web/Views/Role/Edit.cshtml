@@ -1,37 +1,25 @@
 ﻿@model OnlineShop.Web.ViewModels.Role.ChangeRoleViewModel
 @{
-    ViewBag.Title = "Список пользователей";
+    ViewBag.Title = "Roles of User";
 }
-<div class="breadcrumb-area pt-35 pb-35 bg-gray-3">
+<div class="cart-main-area pt-30 pb-100" style="margin: 75px auto;">
     <div class="container">
-        <div class="breadcrumb-content text-center">
-            <ul>
-                <li>
-                    <a href="@Url.ActionLink("Index", "Home")">Home</a>
-                </li>
-                <li class="active">List of roles </li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="cart-main-area pt-30 pb-100">
-    <div class="container">
-        @* <h3 class="cart-page-title">List of users</h3> *@
+        <h3 class="cart-page-title">List of users</h3>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="table-content table-responsive cart-table-content d-flex flex-column-reverse align-items-center">
                     <table style="margin: 0 auto">
-                        <thead> 
+                        <thead>
                         <tr>
                             <th>Role Name</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <form asp-action="Edit" asp-controller="Role" method="post" class="">
-                            <input type="hidden" name="userId" value="@Model.UserId"/>
+                        <form asp-action="Edit" asp-controller="Role" method="post">
                             @foreach (var role in Model.AllRoles)
                             {
+                                <input type="hidden" name="userId" value="@Model.UserId"/>
                                 <tr>
 
                                     <td class="product-name">
@@ -43,12 +31,12 @@
                                                @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "")/>
                                     </td>
                                 </tr>
+                                <div class="button-box" style="margin-top: 25px;">
+                                    <button type="submit">
+                                        <span>Save</span>
+                                    </button>
+                                </div>
                             }
-                            <div class="button-box" style="margin-top: 25px;">
-                                <button type="submit">
-                                    <span>Save</span>
-                                </button>
-                            </div>
                         </form>
                         </tbody>
                     </table>

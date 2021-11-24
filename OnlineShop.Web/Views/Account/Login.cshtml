@@ -2,71 +2,45 @@
 @{
     ViewBag.Title = "Login page";
 }
-<div class="login-register-area pt-100 pb-100" xmlns="http://www.w3.org/1999/html">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-7 col-md-12 mx-auto">
-                <div class="login-register-wrapper">
-                    <div class="login-register-tab-list nav">
-                        <a class="active" data-toggle="tab">
-                            <h4> login </h4>
-                        </a>
-                    </div>
-                    <div class="tab-content">
-                        <div class="tab-pane active">
-                            <div class="login-form-container">
-                                <div class="login-register-form">
-                                    <form asp-action="Login" asp-controller="Account" method="post">
-                                        <div class="validation" asp-validation-summary="ModelOnly"></div>
+<div class="container" style="margin: 75px auto;">
+    <div class="custom-form">
+        <h3 style="margin-right: auto;">@ViewBag.Title</h3>
+        <div class="row justify-content-center">
+            <div class="custom-form-wrapper col-lg-7 col-md-12">
+                <div class="custom-form-container">
+                    <form asp-action="Login" asp-controller="Account" method="post">
+                        <div class="validation" asp-validation-summary="ModelOnly"></div>
 
-                                        <span asp-validation-for="Login" class="text-danger"></span>
-                                        <input asp-for="Login" type="text" placeholder="Login">
 
-                                        <span asp-validation-for="Password" class="text-danger"></span>
-                                        <input asp-for="Password" type="password" placeholder="Password">
+                        <span asp-validation-for="Login"></span>
+                        <input asp-for="Login" type="text" placeholder="Login">
 
-                                        <div class="button-box">
-                                            <div class="login-toggle-btn" style="width: 75%; display: flex; justify-content: space-between">
-                                                <input asp-for="RememberMe" type="checkbox">
-                                                <label asp-for="RememberMe">Remember me</label>
-                                                <a href="@Url.ActionLink("ChangePassword", "Account")" style="margin-left:auto;">Forgot Password?</a>
-                                            </div>
-                                            <button type="submit" >
-                                                <span>Login</span>
-                                            </button>
-                                        </div>
-                                    </form>
-                                    <div class="col-md-6 mx-auto">
-                                        @{
-                                            if (Model.ExternalLogins.Any())
-                                            {
-                                                <form method="post" asp-action="ExternalLogin" style="display: flex; ">
-                                                    <div>
-                                                        @{
-                                                            var googleProvider = Model.ExternalLogins.ElementAt(0);
-                                                            <button type="submit" class="btn btn-outline-dark" style="margin-top: 15px"
-                                                                    name="provider" value="@googleProvider.Name"
-                                                                    title="Login using your @googleProvider.DisplayName account">
-                                                                <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
-                                                                Login with @googleProvider.Name
-                                                            </button>
-                                                            var facebookProvider = Model.ExternalLogins.ElementAt(1);
-                                                            <button type="submit" class="btn btn-outline-dark" style="margin-top: 15px"
-                                                                    name="provider" value="@facebookProvider.Name"
-                                                                    title="Login using your @facebookProvider.DisplayName account">
-                                                                <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://cdn.icon-icons.com/icons2/2108/PNG/512/facebook_icon_130940.png"/>
-                                                                Login with @facebookProvider.Name
-                                                            </button>
-                                                        }
-                                                    </div>
-                                                </form>
-                                            }
-                                        }
-                                    </div>
-                                </div>
+                        <span asp-validation-for="Password"></span>
+                        <input asp-for="Password" type="password" placeholder="Password">
+
+                        <div class="button-box">
+                            <div class="login-toggle-btn">
+                                <label><input asp-for="RememberMe" type="checkbox">Remember me</label>
+                                <a href="@Url.ActionLink("ChangePassword", "Account")">Forgot Password?</a>
+
                             </div>
+                            <button type="submit">
+                                <span>Login</span>
+                            </button>
                         </div>
-                    </div>
+                    </form>
+                </div>
+                <div class="auth-box">
+                    <form method="post" asp-action="ExternalLogin" style="display: flex; flex-direction: column; max-width: 300px;">
+                        <button type="submit" class="btn btn-outline-dark">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+                            Login with Google
+                        </button>
+                        <button type="submit" class="btn btn-outline-dark">
+                            <img alt="Google sign-in" src="https://cdn.icon-icons.com/icons2/2108/PNG/512/facebook_icon_130940.png"/>
+                            Login with Facebook
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

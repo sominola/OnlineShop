@@ -2,54 +2,56 @@
 @{
     ViewBag.Title = $"{Model.Name} Description";
 }
-<div class="breadcrumb-area pt-35 pb-35 bg-gray-3">
-    <div class="container">
-        <div class="breadcrumb-content text-center">
-            <ul>
-                <li>
-                    <a href="@Url.ActionLink("Index", "Home")">Home</a>
-                </li>
-                <li class="active">@ViewBag.Title</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="shop-area pt-100 pb-100">
-    <div class="container">
+<div class="container" style="margin: 75px auto;">
+    <div class="product-wrapper">
         <div class="row">
-            <div class="col-lg-6 col-md-6">
-                <div class="product-details">
-                    <div class="product-details-img">
-                        <div class="tab-content jump">
-                            <div id="shop-details-2" class="tab-pane active large-img-style">
-                                <img src="@Model.Images.FirstOrDefault().Path" alt="">
-                                <div class="img-popup-wrap">
-                                    <a class="img-popup" href="@Model.Images.FirstOrDefault().Path">
-                                        <i class="pe-7s-expand1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            @foreach (var image in Model.Images.Skip(1))
-                            {
-                                <div id="shop-details-1" class="tab-pane large-img-style">
-                                    <span class="dec-price">-10%</span>
-                                    <div class="img-popup-wrap">
-                                        <a class="img-popup" href="@image.Path">
-                                            <i class="pe-7s-expand1"></i>
-                                        </a>
+            <div class="col-lg-6 col-md-8 product-slider-wrapper">
+                <div id="main-image" class="d-block w-100 product-slider-image" style="background-image: url(@Model.Images.FirstOrDefault().Path);"></div>
+                <div class="modal fade" id="exampleModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-touch="true" data-bs-ride="carousel" data-bs-interval="false">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="d-block w-100 product-slider-image" style="background-image: url(@Model.Images.FirstOrDefault().Path);"></div>
                                     </div>
-                                </div>
-                            }
+                                    @foreach (var image in Model.Images.Skip(1))
+                                    {
+                                        <div class="carousel-item">
+                                            <div class="d-block w-100 product-slider-image" style="background-image: url(@image.Path);"></div>
+                                        </div>
+                                    }
 
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
+
+            <script>
+      $(function (){
+        var myInput = $('#main-image').click(function(){
+          $('#exampleModal').modal('show');
+        })
+      })
+    </script>
             <div class="col-lg-6 col-md-6">
-                <div class="product-details-content ml-70">
+                <div class="product-details-text">
                     <h2>@Model.Name</h2>
                     <div class="product-details-price">
-                        <span>@Model.Price</span>
+                        <span>$@Model.Price</span>
+                        <span class="old">$18.00</span>
                     </div>
                     <p>@Model.Description</p>
                     <div class="pro-details-size-color">
@@ -57,29 +59,29 @@
                             <span>Color</span>
                             <div class="pro-details-color-content">
                                 <ul>
-                                    @switch (Model.ColorProduct)
-                                    {
-                                        case ColorProduct.Blue:
-                                            <li class="blue"></li>
-                                            break;
-                                        case ColorProduct.Black:
-                                            <li class="maroon active"></li>
-                                            break;
-                                        case ColorProduct.Gray:
-                                            <li class="gray"></li>
-                                            break;
-                                        case ColorProduct.Red:
-                                            <li class="Red"></li>
-                                            break;
-                                        case ColorProduct.Yellow:
-                                            <li class="yellow"></li>
-                                            break;
-                                        case ColorProduct.Green:
-                                            <li class="green"></li>
-                                            break;
-                                        default:
-                                            throw new ArgumentOutOfRangeException();
-                                    }
+                                  @switch (Model.ColorProduct)
+                                  {
+                                      case ColorProduct.Blue:
+                                          <li class="blue"></li>
+                                          break;
+                                      case ColorProduct.Black:
+                                          <li class="maroon active"></li>
+                                          break;
+                                      case ColorProduct.Gray:
+                                          <li class="gray"></li>
+                                          break;
+                                      case ColorProduct.Red:
+                                          <li class="red"></li>
+                                          break;
+                                      case ColorProduct.Yellow:
+                                          <li class="yellow"></li>
+                                          break;
+                                      case ColorProduct.Green:
+                                          <li class="green"></li>
+                                          break;
+                                      default:
+                                          throw new ArgumentOutOfRangeException();
+                                  }
                                 </ul>
                             </div>
                         </div>
@@ -87,58 +89,37 @@
                             <span>Size</span>
                             <div class="pro-details-size-content">
                                 <ul>
-
-                                    @switch (Model.SizeProduct)
-                                    {
-                                        case SizeProduct.S:
-                                            <li>
-                                                <a href="#">s</a>
-                                            </li>
-                                            break;
-                                        case SizeProduct.M:
-                                            <li>
-                                                <a href="#">m</a>
-                                            </li>
-                                            break;
-                                        case SizeProduct.L:
-                                            <li>
-                                                <a href="#">l</a>
-                                            </li>
-                                            break;
-                                        case SizeProduct.Xl:
-                                            <li>
-                                                <a href="#">xl</a>
-                                            </li>
-                                            break;
-                                        case SizeProduct.Xxl:
-                                            <li>
-                                                <a href="#">xxl</a>
-                                            </li>
-                                            break;
-                                        default:
-                                            throw new ArgumentOutOfRangeException();
-                                    }
+                                   @switch (Model.SizeProduct)
+                                   {
+                                       case SizeProduct.S:
+                                           <li><a href="#">s</a></li>
+                                           break;
+                                       case SizeProduct.M:
+                                           <li><a href="#">m</a></li>
+                                           break;
+                                       case SizeProduct.L:
+                                           <li><a href="#">l</a></li>
+                                           break;
+                                       case SizeProduct.Xl:
+                                           <li><a href="#">xl</a></li>
+                                           break;
+                                       case SizeProduct.Xxl:
+                                           <li><a href="#">xxl</a></li>
+                                           break;
+                                       default:
+                                           throw new ArgumentOutOfRangeException();
+                                   }
                                 </ul>
                             </div>
                         </div>
+
+
                     </div>
-                    <div class="pro-details-quality">
-                        <div class="cart-plus-minus">
-                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                        </div>
-                        <div class="pro-details-cart btn-hover">
-                            <a href="#">Add To Cart</a>
-                        </div>
-                        <div class="pro-details-wishlist">
-                            <a href="#">
-                                <i class="fa fa-heart-o"></i>
-                            </a>
-                        </div>
-                        <div class="pro-details-compare">
-                            <a href="#">
-                                <i class="pe-7s-shuffle"></i>
-                            </a>
-                        </div>
+                    <div class="pro-details-affiliate btn-hover">
+                        <a href="#">Buy Now</a>
+                    </div>
+                    <div class="pro-details-meta">
+                        <span>Brand: @Model.Brand.Name</span>
                     </div>
                 </div>
             </div>
