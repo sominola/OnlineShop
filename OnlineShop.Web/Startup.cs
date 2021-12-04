@@ -10,6 +10,7 @@ using OnlineShop.Data;
 using OnlineShop.Data.Models;
 using OnlineShop.Services;
 using OnlineShop.Web.Extension;
+using OnlineShop.Web.Hubs;
 
 namespace OnlineShop.Web
 {
@@ -65,6 +66,8 @@ namespace OnlineShop.Web
                 options.LowercaseQueryStrings = true;
 
             });
+
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -90,6 +93,7 @@ namespace OnlineShop.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chats");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

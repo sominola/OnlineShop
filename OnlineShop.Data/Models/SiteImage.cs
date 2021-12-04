@@ -2,7 +2,7 @@
 
 namespace OnlineShop.Data.Models
 {
-    public class ProductImage
+    public class SiteImage
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -99,7 +99,7 @@ namespace OnlineShop.Services.Parser
                     DateCreated = DateTime.Now,
                     SizeProduct = size,
                     Brand = brand,
-                    Images = imagesProducts as List<ProductImage>
+                    Images = imagesProducts as List<SiteImage>
                 };
                 await _productService.CreateProductAsync(product);
                 LogParseProduct(product);
@@ -127,15 +127,15 @@ namespace OnlineShop.Services.Parser
 
         private void LogParseProduct(Product product)
         {
-            _logger.LogInformation($"Id: {product.Id}");
-            _logger.LogInformation($"Name: {product.Name}");
-            _logger.LogInformation($"Price: {product.Price}");
-            _logger.LogInformation($"Brand: {product.Brand}");
-            _logger.LogInformation($"Color: {product.ColorProduct.ToString()}");
-            _logger.LogInformation($"Size: {product.SizeProduct}");
+            _logger.LogInformation("Id: {product.Id}",product.Id);
+            _logger.LogInformation("Name: {product.Name}",product.Name);
+            _logger.LogInformation("Price: {product.Price}",product.Price);
+            _logger.LogInformation("Brand: {product.Brand}",product.Brand);
+            _logger.LogInformation("Color: {product.ColorProduct}", product.ColorProduct);
+            _logger.LogInformation("Size: {product.SizeProduct}",product.SizeProduct);
             foreach (var image in product.Images)
             {
-                _logger.LogInformation($"Image: {image.Id} {image.Name} {image.Path}");
+                _logger.LogInformation("Image: {image.Id} {image.Name} {image.Path}", image.Id,image.Name, image.Path);
             }
         }
 
@@ -147,11 +147,9 @@ namespace OnlineShop.Services.Parser
             foreach (var image in test)
             {
                 var link = image.GetAttribute("href");
-                if (link != null)
-                {
-                    links.Add(link);
-                    _logger.LogInformation($"Link: {link}");
-                }
+                if (link == null) continue;
+                links.Add(link);
+                _logger.LogInformation("Link: {Link}",link);
             }
 
             return links;

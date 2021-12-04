@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace OnlineShop.Data.Models
 {
@@ -11,5 +12,7 @@ namespace OnlineShop.Data.Models
         }
         public string Name { get; set; }
         public string LastName { get; set; }
+        
+        public List<ChatUser> Chats { get; set; }
     }
 }

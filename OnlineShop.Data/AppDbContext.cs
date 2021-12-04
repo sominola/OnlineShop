@@ -7,12 +7,15 @@ namespace OnlineShop.Data
     public sealed class AppDbContext: IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductImage> Images { get; set; }
+        public DbSet<SiteImage> Images { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Chat> Chats { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
+      
 
     }
 

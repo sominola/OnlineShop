@@ -37,7 +37,7 @@ namespace OnlineShop.Web.ViewModels.Products
     public class EditProductImage
     {
         
-        public ProductImage Image { get; set; }
+        public SiteImage Image { get; set; }
         public bool IsRemoved { get; set; }
     }
     

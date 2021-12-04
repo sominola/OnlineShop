@@ -20,6 +20,6 @@ namespace OnlineShop.Data.Models
         
         public DateTime DateCreated { get; set; }
 
-        public List<ProductImage> Images { get; set; }
+        public List<SiteImage> Images { get; set; }
     }
 }

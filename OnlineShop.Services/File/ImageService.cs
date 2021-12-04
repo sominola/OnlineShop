@@ -26,7 +26,7 @@ namespace OnlineShop.Services.File
         }
 
 
-        public async Task<ProductImage> UploadImageAsync(IFormFile file)
+        public async Task<SiteImage> UploadImageAsync(IFormFile file)
         {
             var idImage = Guid.NewGuid();
 
@@ -34,7 +34,7 @@ namespace OnlineShop.Services.File
 
             await _fileService.WriteFileAsync(path, file);
 
-            var image = new ProductImage
+            var image = new SiteImage
             {
                 Name = file.FileName,
                 Path = path,
@@ -45,16 +45,16 @@ namespace OnlineShop.Services.File
             return image;
         }
 
-        public async Task<IEnumerable<ProductImage>> UploadImagesFromWebUrlAsync(List<string> urls)
+        public async Task<IEnumerable<SiteImage>> UploadImagesFromWebUrlAsync(List<string> urls)
         {
-            var listImages = new List<ProductImage>(urls.Count);
+            var listImages = new List<SiteImage>(urls.Count);
             foreach (var url in urls)
             {
                 
                 var idImage = Guid.NewGuid();
 
                 const string filename = "FromWebImage!!";
-                var image = new ProductImage
+                var image = new SiteImage
                 {
                     Name = filename,
                     Path = url,
@@ -70,9 +70,9 @@ namespace OnlineShop.Services.File
             return listImages;
         }
 
-        public async Task<IEnumerable<ProductImage>> UploadImagesFromWebAsync(List<string> urls)
+        public async Task<IEnumerable<SiteImage>> UploadImagesFromWebAsync(List<string> urls)
         {
-            var listImages = new List<ProductImage>(urls.Count);
+            var listImages = new List<SiteImage>(urls.Count);
             
             _client ??= new HttpClient();
             foreach (var url in urls)
@@ -87,7 +87,7 @@ namespace OnlineShop.Services.File
 
                 await _fileService.WriteFilesFromStreamAsync(path, file.Content);
 
-                var image = new ProductImage
+                var image = new SiteImage
                 {
                     Name = filename,
                     Path = path,
@@ -103,10 +103,10 @@ namespace OnlineShop.Services.File
             return listImages;
         }
 
-        public async Task<IEnumerable<ProductImage>> UploadImagesAsync(IFormFileCollection files)
+        public async Task<IEnumerable<SiteImage>> UploadImagesAsync(IFormFileCollection files)
         {
             // var listPaths = new List<string>(files.Count);
-            var listImages = new List<ProductImage>(files.Count);
+            var listImages = new List<SiteImage>(files.Count);
 
             foreach (var file in files)
             {
@@ -118,7 +118,7 @@ namespace OnlineShop.Services.File
                 await _fileService.WriteFileAsync(path, file);
 
 
-                var image = new ProductImage
+                var image = new SiteImage
                 {
                     Name = file.FileName,
                     Path = path,

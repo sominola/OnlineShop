@@ -32,12 +32,12 @@
                 </div>
                 <div class="auth-box">
                     <form method="post" asp-action="ExternalLogin" style="display: flex; flex-direction: column; max-width: 300px;">
-                        <button type="submit" class="btn btn-outline-dark">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+                        <button type="submit" class="btn btn-outline-dark" name="provider" value="Google">
+                            <img alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
                             Login with Google
                         </button>
-                        <button type="submit" class="btn btn-outline-dark">
-                            <img alt="Google sign-in" src="https://cdn.icon-icons.com/icons2/2108/PNG/512/facebook_icon_130940.png"/>
+                        <button type="submit" class="btn btn-outline-dark" name="provider" value="Facebook">
+                            <img alt="Facebook sign-in" src="https://cdn.icon-icons.com/icons2/2108/PNG/512/facebook_icon_130940.png"/>
                             Login with Facebook
                         </button>
                     </form>

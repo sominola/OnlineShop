@@ -116,8 +116,7 @@ namespace OnlineShop.Web.Controllers
 
         [AllowAnonymous]
         [Route("ExternalLoginCallback")]
-        public async Task<IActionResult>
-            ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
             returnUrl ??= Url.Content("~/");
 
@@ -195,18 +194,18 @@ namespace OnlineShop.Web.Controllers
 
         [HttpGet]
         [Route("Login")]
-        public Task<IActionResult> Login(string returnUrl = null)
+        public IActionResult Login(string returnUrl = null)
         {
             if (_signInManager.IsSignedIn(User))
             {
-                return Task.FromResult<IActionResult>(RedirectToAction("Index", "Home"));
+                return RedirectToAction("Index", "Home");
             }
 
             var model = new LoginViewModel
             {
                 ReturnUrl = returnUrl,
             };
-            return Task.FromResult<IActionResult>(View(model));
+            return View(model);
         }
 
 

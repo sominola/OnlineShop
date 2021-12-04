@@ -117,7 +117,7 @@ namespace OnlineShop.Web.Controllers
                     DateCreated = DateTime.Now,
                     SizeProduct = model.Size,
 
-                    Images = images as List<ProductImage>
+                    Images = images as List<SiteImage>
                 };
 
                 await _productService.CreateProductAsync(product);
@@ -158,7 +158,7 @@ namespace OnlineShop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<ProductImage> images = new();
+                List<SiteImage> images = new();
                 if (model.Images != null)
                 {
                     images.AddRange(from image in model.Images where !image.IsRemoved select image.Image);

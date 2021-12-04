@@ -7,9 +7,9 @@ namespace OnlineShop.Services.File
 {
     public interface IImageService
     {
-        Task<IEnumerable<ProductImage>> UploadImagesFromWebUrlAsync(List<string> urls);
-        Task<IEnumerable<ProductImage>> UploadImagesFromWebAsync(List<string> urls);
-        Task<ProductImage> UploadImageAsync(IFormFile file);
-        Task<IEnumerable<ProductImage>> UploadImagesAsync(IFormFileCollection files);
+        Task<IEnumerable<SiteImage>> UploadImagesFromWebUrlAsync(List<string> urls);
+        Task<IEnumerable<SiteImage>> UploadImagesFromWebAsync(List<string> urls);
+        Task<SiteImage> UploadImageAsync(IFormFile file);
+        Task<IEnumerable<SiteImage>> UploadImagesAsync(IFormFileCollection files);
     }
 }
