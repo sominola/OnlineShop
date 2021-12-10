@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using OnlineShop.Data;
+using OnlineShop.Data.Enums;
 using OnlineShop.Data.Models;
 
 namespace OnlineShop.Services.Products

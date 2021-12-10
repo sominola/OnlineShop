@@ -73,7 +73,7 @@ namespace OnlineShop.Services.Parser
                 var price = GetPriceProduct(htmlProduct);
                 var name = GetNameProduct(htmlProduct);
                 var description = GetDescriptionProduct(htmlProduct);
-                var size = GetSizeProduct(htmlProduct); 
+                var size = GetSizeProduct(htmlProduct);
                 var color = GetColorProduct(htmlProduct);
                 var brandName = GetBrandProduct(htmlProduct);
 
@@ -127,15 +127,15 @@ namespace OnlineShop.Services.Parser
 
         private void LogParseProduct(Product product)
         {
-            _logger.LogInformation("Id: {product.Id}",product.Id);
-            _logger.LogInformation("Name: {product.Name}",product.Name);
-            _logger.LogInformation("Price: {product.Price}",product.Price);
-            _logger.LogInformation("Brand: {product.Brand}",product.Brand);
+            _logger.LogInformation("Id: {product.Id}", product.Id);
+            _logger.LogInformation("Name: {product.Name}", product.Name);
+            _logger.LogInformation("Price: {product.Price}", product.Price);
+            _logger.LogInformation("Brand: {product.Brand}", product.Brand);
             _logger.LogInformation("Color: {product.ColorProduct}", product.ColorProduct);
-            _logger.LogInformation("Size: {product.SizeProduct}",product.SizeProduct);
+            _logger.LogInformation("Size: {product.SizeProduct}", product.SizeProduct);
             foreach (var image in product.Images)
             {
-                _logger.LogInformation("Image: {image.Id} {image.Name} {image.Path}", image.Id,image.Name, image.Path);
+                _logger.LogInformation("Image: {image.Id} {image.Name} {image.Path}", image.Id, image.Name, image.Path);
             }
         }
 
@@ -149,7 +149,7 @@ namespace OnlineShop.Services.Parser
                 var link = image.GetAttribute("href");
                 if (link == null) continue;
                 links.Add(link);
-                _logger.LogInformation("Link: {Link}",link);
+                _logger.LogInformation("Link: {Link}", link);
             }
 
             return links;

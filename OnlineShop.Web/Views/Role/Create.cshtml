@@ -1,8 +1,8 @@
 ﻿@model string
 @{
-    ViewBag.Title= "Create role";
+    ViewBag.Title = "Create role";
 }
-<div class="container"  style="margin: 75px auto;">
+<div class="container" style="margin: 75px auto;">
     <div class="custom-form">
         <h3 style="margin-right: auto;">@ViewBag.Title</h3>
         <div class="row justify-content-center">
@@ -13,9 +13,11 @@
 
                         <div class="validation" asp-validation-summary="ModelOnly"></div>
                         <input name="name" type="text" placeholder="Name of role">
-          
+
                         <div class="button-box">
-                            <button type="submit" style="float: right;"><span>Create role</span></button>
+                            <button type="submit" style="float: right;">
+                                <span>Create role</span>
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -37,7 +37,7 @@ namespace OnlineShop.Web.Components
     {
         public string DisplayValue { get; set; }
         public string ActionValue { get; set; }
-        
+
         public string ControllerValue { get; set; }
     }
 }

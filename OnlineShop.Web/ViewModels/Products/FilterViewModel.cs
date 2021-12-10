@@ -1,34 +1,36 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using OnlineShop.Data.Enums;
 
 namespace OnlineShop.Web.ViewModels.Products
 {
     public class FilterViewModel
     {
-        [BindProperty(Name="Page")]
+        [BindProperty(Name = "Page")]
         public int CurrentPage { get; set; } = 1;
-        
-        [BindProperty(Name="Name")]
+
+        [BindProperty(Name = "Name")]
         public string CurrentName { get; set; }
-        
-        [BindProperty(Name="Sort")]
+
+        [BindProperty(Name = "Sort")]
         public OrderBy CurrentSort { get; set; } = OrderBy.PriceDesc;
-        
-        [BindProperty(Name="Brand")]
+
+        [BindProperty(Name = "Brand")]
         public string CurrentBrand { get; set; }
-        
+
         public SelectList Brands { get; set; }
         public string CurrentSortString => CurrentSort.ToString().ToLower();
 
-        [BindProperty(Name="Count")]
+        [BindProperty(Name = "Count")]
         public int TotalProductsOnPage { get; set; } = 15;
         public IEnumerable<SelectListItem> SelectListItems { get; set; }
-        
+
         public FilterViewModel()
         {
             GenerateSortOrder();
         }
+
         private void GenerateSortOrder()
         {
             SelectListItems = new List<SelectListItem>
@@ -41,6 +43,5 @@ namespace OnlineShop.Web.ViewModels.Products
                 new("Sort high to low name", OrderBy.NameDesc.ToString().ToLower(), CurrentSort == OrderBy.NameDesc),
             };
         }
-        
     }
 }

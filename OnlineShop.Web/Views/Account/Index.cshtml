@@ -2,6 +2,57 @@
 @{
     ViewBag.Title = "My account";
 }
+<style>
+    .avatar-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .avatar-wrapper .avatar {
+      height: 200px;
+      width: 200px;
+      border: 2px solid #6f42c1;
+      border-radius: 50%;
+      background: antiquewhite; 
+      opacity: 1;
+      -webkit-transition: .3s ease-in-out;
+      transition: .3s ease-in-out;
+    }
+    
+    .avatar-wrapper .avatar:hover{
+        cursor: pointer;
+        opacity: .5;
+    }
+    
+     .avatar-wrapper .preview {
+      position: relative;
+    }
+    
+     .avatar-wrapper input[type="file"] {
+      display: none;
+    }
+    
+     .avatar-wrapper .preview .upload-button {
+      padding: 18px;
+      font-size: 20px;
+      color: white;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background-color: #6f42c1;
+      box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+        0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+      transition: background-color ease-out 120ms;
+      position: absolute;
+      right: -5%;
+      bottom: 0;
+    }
+   
+     .avatar-wrapper .preview .upload-button:hover {
+      background-color: #45a;
+    }
+</style>
 <div class="container" style="margin: 75px auto;">
     <div class="row">
         <div class="ml-auto mr-auto col-lg-7 mx-auto">
@@ -15,9 +66,18 @@
                         </div>
                         <div id="my-account-1" class="panel-collapse collapse show">
                             <div class="panel-body">
-                                <form asp-action="Index" asp-controller="Account" method="post" asp-route-model="">
+                                <form asp-action="Index" asp-controller="Account" method="post" enctype="multipart/form-data">
                                     <div class="myaccount-info-wrapper">
                                         <div class="account-info-wrapper">
+                                            @* @if (ViewBag.IsSuccess == true) *@
+                                            @* { *@
+                                            @*     <div class="validation-summary-success">Data changed successfully</div> *@
+                                            @* } *@
+                                            @* else *@
+                                            @* { *@
+                                            @*     <div class="validation" asp-validation-summary="ModelOnly"></div> *@
+                                            @* } *@
+
                                             <h4>My Account Information</h4>
                                             @if (ViewBag.IsSuccess == true)
                                             {
@@ -37,8 +97,8 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Last Name</label>
-                                                <input type="text" asp-for="LastName">
                                                 <span asp-validation-for="LastName" class="text-danger"></span>
+                                                <input type="text" asp-for="LastName">
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Email Address</label>

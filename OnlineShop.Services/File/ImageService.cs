@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
 using OnlineShop.Data.Models;
 
@@ -17,7 +18,7 @@ namespace OnlineShop.Services.File
         private readonly AppDbContext _db;
         private HttpClient _client;
         private readonly string _pathToPhoto;
-        
+
         public ImageService(IFileService fileService, AppDbContext db)
         {
             _fileService = fileService;
@@ -25,6 +26,34 @@ namespace OnlineShop.Services.File
             _pathToPhoto = Config.PathToPhoto;
         }
 
+        public async Task<SiteImage> UploadImageAsync(IFormFile file, Guid id)
+        {
+            var path = _pathToPhoto + id + Path.GetExtension(file.FileName);
+
+            await _fileService.WriteFileAsync(path, file);
+
+            var image = new SiteImage
+            {
+                Name = file.FileName,
+                Path = path,
+                Id = id
+            };
+            var imageDb = await _db.Images.FirstOrDefaultAsync(x => x.Id == id);
+            if (imageDb == null)
+            {
+                _db.Images.Add(image);
+            }
+            else
+            {
+                imageDb.Id = id;
+                imageDb.Path = path;
+                imageDb.Name = file.Name;
+                _db.Images.Update(imageDb);
+                await _db.SaveChangesAsync();
+            }
+
+            return image;
+        }
 
         public async Task<SiteImage> UploadImageAsync(IFormFile file)
         {
@@ -45,12 +74,12 @@ namespace OnlineShop.Services.File
             return image;
         }
 
+
         public async Task<IEnumerable<SiteImage>> UploadImagesFromWebUrlAsync(List<string> urls)
         {
             var listImages = new List<SiteImage>(urls.Count);
             foreach (var url in urls)
             {
-                
                 var idImage = Guid.NewGuid();
 
                 const string filename = "FromWebImage!!";
@@ -62,8 +91,8 @@ namespace OnlineShop.Services.File
                 };
 
                 listImages.Add(image);
-                
             }
+
             await _db.AddRangeAsync(listImages);
             await _db.SaveChangesAsync();
 
@@ -73,17 +102,17 @@ namespace OnlineShop.Services.File
         public async Task<IEnumerable<SiteImage>> UploadImagesFromWebAsync(List<string> urls)
         {
             var listImages = new List<SiteImage>(urls.Count);
-            
+
             _client ??= new HttpClient();
             foreach (var url in urls)
             {
                 var file = await _client.GetAsync(url);
-                
+
                 var idImage = Guid.NewGuid();
 
                 var nameFile = file.Content.Headers.GetValues("content-disposition").FirstOrDefault();
                 var filename = new ContentDisposition(nameFile).FileName;
-                var path =_pathToPhoto + idImage + Path.GetExtension(filename);
+                var path = _pathToPhoto + idImage + Path.GetExtension(filename);
 
                 await _fileService.WriteFilesFromStreamAsync(path, file.Content);
 
@@ -95,8 +124,8 @@ namespace OnlineShop.Services.File
                 };
 
                 listImages.Add(image);
-                
             }
+
             await _db.AddRangeAsync(listImages);
             await _db.SaveChangesAsync();
 
@@ -112,7 +141,7 @@ namespace OnlineShop.Services.File
             {
                 var idImage = Guid.NewGuid();
 
-                var path =_pathToPhoto + idImage + Path.GetExtension(file.FileName);
+                var path = _pathToPhoto + idImage + Path.GetExtension(file.FileName);
 
                 // listPaths.Add(path);
                 await _fileService.WriteFileAsync(path, file);

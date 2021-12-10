@@ -1,4 +1,6 @@
-﻿public enum OrderBy
+﻿namespace OnlineShop.Data.Enums;
+
+public enum OrderBy
 {
     DateAsc,
     DateDesc,

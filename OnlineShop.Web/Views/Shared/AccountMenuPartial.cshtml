@@ -1,14 +1,25 @@
 ﻿@inject SignInManager<User> _signInManager
 @if (!_signInManager.IsSignedIn(User))
 {
-    <li><a class="dropdown-item" href="@Url.ActionLink("Login", "Account")">Login</a></li>
-    <li><a class="dropdown-item" href="@Url.ActionLink("Register", "Account")">Register</a></li>
+    <li>
+        <a class="dropdown-item" href="@Url.ActionLink("Login", "Account")">Login</a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="@Url.ActionLink("Register", "Account")">Register</a>
+    </li>
 }
 else
 {
-    <li><a class="dropdown-item" href="#">Wishlist</a></li>
-    <li><a class="dropdown-item" href="@Url.ActionLink("Index", "Account")">Settings</a></li>
+    <li>
+        <a class="dropdown-item" href="#">Wishlist</a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="@Url.ActionLink("Index", "Account")">Settings</a>
+    </li>
 
-    <li> <form asp-controller="Account" asp-action="Logout" method="post">
-        <button class="btn button-link" type="submit">Logout</button></form></li>
+    <li>
+        <form asp-controller="Account" asp-action="Logout" method="post">
+            <button class="btn button-link" type="submit">Logout</button>
+        </form>
+    </li>
 }

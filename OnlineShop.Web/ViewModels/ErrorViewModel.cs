@@ -4,7 +4,6 @@ namespace OnlineShop.Web.ViewModels
     {
         public string RequestId { get; set; }
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-
         public string ErrorStatusCode { get; set; }
 
         public string OriginalUrl { get; set; }

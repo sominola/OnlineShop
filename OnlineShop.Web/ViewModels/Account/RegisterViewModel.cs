@@ -9,13 +9,13 @@ namespace OnlineShop.Web.ViewModels.Account
         [DataType(DataType.EmailAddress)]
         [EmailValidation(ErrorMessage = "Wrong Email")]
         public string Email { get; set; }
-        
+
         [Required]
         [Display(Name = "Login")]
         public string Login { get; set; }
 
-        [Required] 
-        [Display(Name = "Name")] 
+        [Required]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
@@ -24,8 +24,7 @@ namespace OnlineShop.Web.ViewModels.Account
 
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(100, ErrorMessage = "Field {0} must have a minimum of {2} and a maximum of {1} characters.",
-            MinimumLength = 5)]
+        [StringLength(100, ErrorMessage = "Field {0} must have a minimum of {2} and a maximum of {1} characters.", MinimumLength = 5)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
@@ -34,6 +33,5 @@ namespace OnlineShop.Web.ViewModels.Account
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         public string PasswordConfirm { get; set; }
-        
     }
 }

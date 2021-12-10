@@ -1,9 +1,12 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data.Models;
+using OnlineShop.Services.File;
 using OnlineShop.Web.ViewModels.Account;
 
 namespace OnlineShop.Web.Controllers
@@ -12,11 +15,14 @@ namespace OnlineShop.Web.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IImageService _imageService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager,
+            IImageService imageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -24,7 +30,8 @@ namespace OnlineShop.Web.Controllers
         [Route("Account/")]
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
             var model = new EditAccountViewModel()
             {
                 Id = user.Id,
@@ -46,6 +53,8 @@ namespace OnlineShop.Web.Controllers
                 var user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
+                    var image = await _imageService.UploadImageAsync(model.File, Guid.Parse(user.Id));
+
                     user.Email = model.Email;
                     user.Login = model.Login;
                     user.Name = model.Name;
@@ -55,7 +64,8 @@ namespace OnlineShop.Web.Controllers
                     if (result.Succeeded)
                     {
                         ViewBag.IsSuccess = true;
-                        return View();
+                        model.AvatarPath = image.Path;
+                        return View(model);
                     }
                     else
                     {
@@ -69,7 +79,7 @@ namespace OnlineShop.Web.Controllers
 
             return View();
         }
-      
+
 
         [HttpGet]
         [Route("Register")]
@@ -79,6 +89,7 @@ namespace OnlineShop.Web.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
             return View();
         }
 
@@ -110,7 +121,7 @@ namespace OnlineShop.Web.Controllers
                     }
                 }
             }
-        
+
             return View();
         }
 
@@ -143,7 +154,7 @@ namespace OnlineShop.Web.Controllers
             }
 
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-                info.ProviderKey, false, true);
+                info.ProviderKey, true, true);
 
             if (signInResult.Succeeded)
             {
@@ -154,11 +165,11 @@ namespace OnlineShop.Web.Controllers
             var name = info.Principal.FindFirstValue(ClaimTypes.GivenName);
             var surname = info.Principal.FindFirstValue(ClaimTypes.Surname);
             var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-                
+
             // var picture = $"https://graph.facebook.com/{identifier}/picture?type=large";
-               
+
             var user = await _userManager.FindByEmailAsync(email);
-                    
+
             if (user == null)
             {
                 user = new User()

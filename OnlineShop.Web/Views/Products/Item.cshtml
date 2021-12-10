@@ -59,29 +59,29 @@
                             <span>Color</span>
                             <div class="pro-details-color-content">
                                 <ul>
-                                  @switch (Model.ColorProduct)
-                                  {
-                                      case ColorProduct.Blue:
-                                          <li class="blue"></li>
-                                          break;
-                                      case ColorProduct.Black:
-                                          <li class="maroon active"></li>
-                                          break;
-                                      case ColorProduct.Gray:
-                                          <li class="gray"></li>
-                                          break;
-                                      case ColorProduct.Red:
-                                          <li class="red"></li>
-                                          break;
-                                      case ColorProduct.Yellow:
-                                          <li class="yellow"></li>
-                                          break;
-                                      case ColorProduct.Green:
-                                          <li class="green"></li>
-                                          break;
-                                      default:
-                                          throw new ArgumentOutOfRangeException();
-                                  }
+                                    @switch (Model.ColorProduct)
+                                    {
+                                        case ColorProduct.Blue:
+                                            <li class="blue"></li>
+                                            break;
+                                        case ColorProduct.Black:
+                                            <li class="maroon active"></li>
+                                            break;
+                                        case ColorProduct.Gray:
+                                            <li class="gray"></li>
+                                            break;
+                                        case ColorProduct.Red:
+                                            <li class="red"></li>
+                                            break;
+                                        case ColorProduct.Yellow:
+                                            <li class="yellow"></li>
+                                            break;
+                                        case ColorProduct.Green:
+                                            <li class="green"></li>
+                                            break;
+                                        default:
+                                            throw new ArgumentOutOfRangeException();
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -89,26 +89,36 @@
                             <span>Size</span>
                             <div class="pro-details-size-content">
                                 <ul>
-                                   @switch (Model.SizeProduct)
-                                   {
-                                       case SizeProduct.S:
-                                           <li><a href="#">s</a></li>
-                                           break;
-                                       case SizeProduct.M:
-                                           <li><a href="#">m</a></li>
-                                           break;
-                                       case SizeProduct.L:
-                                           <li><a href="#">l</a></li>
-                                           break;
-                                       case SizeProduct.Xl:
-                                           <li><a href="#">xl</a></li>
-                                           break;
-                                       case SizeProduct.Xxl:
-                                           <li><a href="#">xxl</a></li>
-                                           break;
-                                       default:
-                                           throw new ArgumentOutOfRangeException();
-                                   }
+                                    @switch (Model.SizeProduct)
+                                    {
+                                        case SizeProduct.S:
+                                            <li>
+                                                <a href="#">s</a>
+                                            </li>
+                                            break;
+                                        case SizeProduct.M:
+                                            <li>
+                                                <a href="#">m</a>
+                                            </li>
+                                            break;
+                                        case SizeProduct.L:
+                                            <li>
+                                                <a href="#">l</a>
+                                            </li>
+                                            break;
+                                        case SizeProduct.Xl:
+                                            <li>
+                                                <a href="#">xl</a>
+                                            </li>
+                                            break;
+                                        case SizeProduct.Xxl:
+                                            <li>
+                                                <a href="#">xxl</a>
+                                            </li>
+                                            break;
+                                        default:
+                                            throw new ArgumentOutOfRangeException();
+                                    }
                                 </ul>
                             </div>
                         </div>

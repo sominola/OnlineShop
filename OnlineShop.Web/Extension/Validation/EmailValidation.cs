@@ -22,7 +22,7 @@ namespace OnlineShop.Web.Extension.Validation
             {
                 return false;
             }
-            
+
             var email = valueAsString;
 
 

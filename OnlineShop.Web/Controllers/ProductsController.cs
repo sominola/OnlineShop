@@ -79,7 +79,7 @@ namespace OnlineShop.Web.Controllers
         {
             await _productParserService.StartParsing("k/vin/odyag/sorochky");
             await _productParserService.StartParsing("k/vin/odyag/kurtky-ta-palta");
-            
+
             return Ok();
         }
 

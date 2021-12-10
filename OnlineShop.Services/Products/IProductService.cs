@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using OnlineShop.Data.Enums;
 using OnlineShop.Data.Models;
 
 namespace OnlineShop.Services.Products
@@ -10,7 +11,7 @@ namespace OnlineShop.Services.Products
         IQueryable<Product> GetAllProducts();
 
         IQueryable<Product> GetProductsByName(IQueryable<Product> products, string name);
-        
+
         IQueryable<Product> GetProductsByBrand(IQueryable<Product> products, string brand);
         IQueryable<Product> SortProductsByOrder(IQueryable<Product> products, OrderBy order);
 

@@ -7,17 +7,17 @@ namespace OnlineShop.Data.Models
 {
     public class Product
     {
-        [Required]
+        [Required] 
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
-        public Brand Brand { get; set; }        
+        public Brand Brand { get; set; }
         public SizeProduct SizeProduct { get; set; }
-        
+
         public ColorProduct ColorProduct { get; set; }
-        
+
         public string Description { get; set; }
-        
+
         public DateTime DateCreated { get; set; }
 
         public List<SiteImage> Images { get; set; }

@@ -12,20 +12,20 @@ namespace OnlineShop.Web.ViewModels.Products
         public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
-        
+
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
         public int Price { get; set; }
-        
+
         [Required]
         public string BrandName { get; set; }
-        
+
         [Required]
         public SizeProduct Size { get; set; }
-        
+
         [Required]
         public ColorProduct Color { get; set; }
-        
+
         [Required]
         public string Description { get; set; }
 
@@ -36,9 +36,7 @@ namespace OnlineShop.Web.ViewModels.Products
 
     public class EditProductImage
     {
-        
         public SiteImage Image { get; set; }
         public bool IsRemoved { get; set; }
     }
-    
 }

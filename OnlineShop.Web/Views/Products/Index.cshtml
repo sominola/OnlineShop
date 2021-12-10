@@ -47,25 +47,22 @@
                                     <h5>Search item: </h5>
                                     <input id="input-name" type="text" name="name" asp-for="Filter.CurrentName"/>
                                 </div>
-                                <script>
-                                                                           $(function() {
-                                                                               checkIfNameNull()
-                                                                               
-                                                                               function checkIfNameNull()
-                                                                               {
-                                                                                     const form = $('#form-search');
-                                                                                     const input = $('#input-name')[0];
-                                                                                     form.on('submit', function ()
-                                                                                     {
-                                                                                         if (input.value.trim() === "")
-                                                                                         {
-                                                                                             input.removeAttribute("name");
-                                                                                             input.removeAttribute("value");
-                                                                                         }
-                                                                                     })
-                                                                               }
-                                                                           })
-                                                                           </script>
+                                    <script>
+                                        $(function() {
+                                            checkIfNameNull()
+                                        
+                                            function checkIfNameNull() {
+                                                const form = $('#form-search');
+                                                const input = $('#input-name')[0];
+                                                form.on('submit', function() {
+                                                    if (input.value.trim() === "") {
+                                                        input.removeAttribute("name");
+                                                        input.removeAttribute("value");
+                                                    }
+                                                })
+                                            }
+                                        })                             
+                                </script>
                             </div>
                         </div>
                         <div class="button-box" style="margin-left: 90%">

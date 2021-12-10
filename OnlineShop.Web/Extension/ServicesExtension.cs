@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using OnlineShop.Services;
 using OnlineShop.Services.BrandService;
-using OnlineShop.Services.Chats;
 using OnlineShop.Services.File;
 using OnlineShop.Services.Parser;
 using OnlineShop.Services.Products;
@@ -17,13 +16,15 @@ namespace OnlineShop.Web.Extension
                 .AddGoogle(options =>
                 {
                     options.ClientId = Environment.GetEnvironmentVariable("GoogleId", EnvironmentVariableTarget.User)!;
-                    options.ClientSecret =  Environment.GetEnvironmentVariable("GoogleSecret", EnvironmentVariableTarget.User)!;
+                    options.ClientSecret =
+                        Environment.GetEnvironmentVariable("GoogleSecret", EnvironmentVariableTarget.User)!;
                 });
 
             services.AddAuthentication().AddFacebook(options =>
             {
                 options.AppId = Environment.GetEnvironmentVariable("FacebookId", EnvironmentVariableTarget.User)!;
-                options.AppSecret = Environment.GetEnvironmentVariable("FacebookSecret", EnvironmentVariableTarget.User)!;
+                options.AppSecret =
+                    Environment.GetEnvironmentVariable("FacebookSecret", EnvironmentVariableTarget.User)!;
             });
 
 
@@ -31,8 +32,6 @@ namespace OnlineShop.Web.Extension
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IBrandService, BrandService>();
-            services.AddScoped<ChatService>();
-            services.AddScoped<MessageService>();
 
             var configForParser = new ConfigProductParser
             {

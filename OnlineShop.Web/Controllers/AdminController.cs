@@ -33,7 +33,7 @@ namespace OnlineShop.Web.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index","Admin");
+                    return RedirectToAction("Index", "Admin");
                 }
                 else
                 {

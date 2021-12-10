@@ -5,7 +5,7 @@ namespace OnlineShop.Data.Models
 {
     public class Brand
     {
-        [Required]
+        [Required] 
         public Guid Id { get; set; }
         public string Name { get; set; }
     }

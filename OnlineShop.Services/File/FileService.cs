@@ -25,15 +25,15 @@ namespace OnlineShop.Services.File
             }
             catch (DirectoryNotFoundException)
             {
-                var directoryPath = _webRootPath+ Path.GetDirectoryName(path);
-                if(!Directory.Exists(directoryPath))
+                var directoryPath = _webRootPath + Path.GetDirectoryName(path);
+                if (!Directory.Exists(directoryPath))
                     Directory.CreateDirectory(directoryPath);
-                
+
                 await using var fileStream = new FileStream(_webRootPath + path, FileMode.Create);
                 await content.CopyToAsync(fileStream);
             }
         }
-        
+
         public async Task WriteFileAsync(string path, IFormFile file)
         {
             try
@@ -44,21 +44,21 @@ namespace OnlineShop.Services.File
             catch (DirectoryNotFoundException)
             {
                 var directoryPath = _webRootPath + Path.GetDirectoryName(path);
-                if(!Directory.Exists(directoryPath))
+                if (!Directory.Exists(directoryPath))
                     Directory.CreateDirectory(directoryPath);
-                
+
                 await using var fileStream = new FileStream(_webRootPath + path, FileMode.Create);
                 await file.CopyToAsync(fileStream);
             }
         }
-        
+
         public async Task WriteFilesAsync(IEnumerable<string> path, IFormFileCollection files)
         {
             var pathAndFiles = path.Zip(files, (p, f) => new {Path = p, File = f});
 
             var directoryPath = _webRootPath + Path.GetDirectoryName(path.FirstOrDefault());
 
-            if(!Directory.Exists(directoryPath))
+            if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
             foreach (var item in pathAndFiles)
@@ -68,6 +68,5 @@ namespace OnlineShop.Services.File
                 await item.File.CopyToAsync(fileStream);
             }
         }
-        
     }
 }

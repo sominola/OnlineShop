@@ -14,19 +14,19 @@ namespace OnlineShop.Web.Controllers
         {
             _logger = logger;
         }
-        
-        [ResponseCache(Location =ResponseCacheLocation.Any, Duration = 300)]
+
+        [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 300)]
         public IActionResult Index()
         {
             return View();
         }
-        
+
         [Authorize]
         public IActionResult Privacy()
         {
             return View();
         }
-        
+
         [Route("Error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(string code)
@@ -34,12 +34,12 @@ namespace OnlineShop.Web.Controllers
             var model = new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                ErrorStatusCode = code
+                ErrorStatusCode = code,
             };
-            
+
             return View(model);
         }
-        
+
         [Route("AccessDenied")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -47,9 +47,9 @@ namespace OnlineShop.Web.Controllers
             var model = new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                ErrorStatusCode = "Access Denied"
+                ErrorStatusCode = "Access Denied",
             };
-            
+
             return View(model);
         }
     }
